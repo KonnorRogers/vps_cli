@@ -6,3 +6,7 @@
 /pkg/
 /spec/reports/
 /tmp/
+/tags
+/*.log*
+/tests/logs
+/.tmp
