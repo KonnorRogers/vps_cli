@@ -1,0 +1,11 @@
+D, [2019-04-29T22:33:54.833268 #20985] DEBUG -- : test_overwrites_existing_netrc'
+I, [2019-04-29T22:33:54.833634 #20985]  INFO -- : 
+E, [2019-04-29T22:33:54.833658 #20985] ERROR -- : 
+] ERROR -- : GPG_TTY=$(tty) && export GPG_TTY
+GPG_TTY=$(tty) && export GPG_TTY
+GPG_TTY=$(tty) && export GPG_TTY
+
+$(tty) && export GPG_TTY
+GPG_TTY=$(tty) && export GPG_TTY
+GPG_TTY=$(tty) && export GPG_TTY
+

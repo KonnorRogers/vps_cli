@@ -1,0 +1,26 @@
+D, [2019-04-29T22:33:54.489183 #20985] DEBUG -- : test_copy_dotfiles_does_not_make_a_backup_and_copies_files'
+I, [2019-04-29T22:33:54.489592 #20985]  INFO -- : /home/konnor/vps_cli/test/local_dir/.vimrc does not exist. No backup created.
+/home/konnor/vps_cli/test/local_dir/.pryrc does not exist. No backup created.
+/home/konnor/vps_cli/test/local_dir/.zshrc does not exist. No backup created.
+
+E, [2019-04-29T22:33:54.489604 #20985] ERROR -- : 
+hd_config.orig already exists. no backup created
+dotfiles copied to /home/konnor/vps_cli/test/local_dir
+backups created @ /home/konnor/vps_cli/test/backup_dir
+
+E, [2019-04-29T22:33:54.486225 #20985] ERROR -- : 
+D, [2019-04-29T22:33:54.486693 #20985] DEBUG -- : test_copy_works_properly'
+I, [2019-04-29T22:33:54.487090 #20985]  INFO -- : /home/konnor/vps_cli/test/local_dir/.vimrc does not exist. No backup created.
+/home/konnor/vps_cli/test/local_dir/.pryrc does not exist. No backup created.
+/home/konnor/vps_cli/test/local_dir/.zshrc does not exist. No backup created.
+something went wrong with gnome, continuing on
+dotfiles copied to /home/konnor/vps_cli/test/local_dir
+backups created @ /home/konnor/vps_cli/test/backup_dir
+
+E, [2019-04-29T22:33:54.487101 #20985] ERROR -- : 
+D, [2019-04-29T22:33:54.487588 #20985] DEBUG -- : test_copy_works_properly'
+I, [2019-04-29T22:33:54.488522 #20985]  INFO -- : something went wrong with gnome, continuing on
+dotfiles copied to /home/konnor/vps_cli/test/local_dir
+backups created @ /home/konnor/vps_cli/test/backup_dir
+
+E, [2019-04-29T22:33:54.488534 #20985] ERROR -- : 
