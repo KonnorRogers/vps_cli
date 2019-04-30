@@ -9,5 +9,5 @@
 
 /tags
 *.log*
-test/logs*
+/test/logs*
 /.tmp
