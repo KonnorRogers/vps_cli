@@ -8,6 +8,5 @@
 /tmp/
 
 /tags
-*.log*
-/logs*
+**logs
 /.tmp
