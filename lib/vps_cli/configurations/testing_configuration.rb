@@ -18,4 +18,4 @@ VpsCli.configure do |config|
   config.testing = false
 end
 
-puts VpsCli.configuration.local_dir
+# puts VpsCli.configuration.local_dir

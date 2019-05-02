@@ -6,7 +6,12 @@ class TestConfiguration < Minitest::Test
   end
 
   def test_should_set_a_default_testing_configuration_with_no_nil_values
-    refute VpsCli.configuration.instance_variables.any?(&:nil?)
+    any_nil = VpsCli.configuration.instance_variables.any? do |var|
+      VpsCli.configuration.instance_variable_get(var).nil?
+    end
+
+    # no values should be nil
+    refute any_nil
   end
 
   def test_should_update_if_given_a_configure_block
@@ -14,11 +19,17 @@ class TestConfiguration < Minitest::Test
       config.dotfiles = nil
     end
 
-    p VpsCli.configuration
-    is_nil =  VpsCli.configuration.instance_variables.any? do |var|
-      var.nil?
+    any_nil = VpsCli.configuration.instance_variables.any? do |var|
+      VpsCli.configuration.instance_variable_get(var).nil?
     end
 
-    p is_nil
+    # dotfiles should be nil therefore the values have not been set properly
+    assert any_nil
+
+    VpsCli.configure do |config|
+      config.dotfiles = :test_dotfiles
+    end
+
+    assert_equal VpsCli.configuration.dotfiles, :test_dotfiles
   end
 end
