@@ -1,6 +1,7 @@
-D, [2019-04-29T23:18:50.367295 #26687] DEBUG -- : test_heroku_git_string_returns_proper_string'
-I, [2019-04-29T23:18:50.404126 #26687]  INFO -- : 
-E, [2019-04-29T23:18:50.404154 #26687] ERROR -- : GPG_TTY=$(tty) && export GPG_TTY
+D, [2019-05-02T04:11:17.653140 #22374] DEBUG -- : test_overwrites_existing_netrc'
+I, [2019-05-02T04:11:17.653405 #22374]  INFO -- : 
+E, [2019-05-02T04:11:17.653418 #22374] ERROR -- : 
+] ERROR -- : GPG_TTY=$(tty) && export GPG_TTY
 GPG_TTY=$(tty) && export GPG_TTY
 GPG_TTY=$(tty) && export GPG_TTY
 

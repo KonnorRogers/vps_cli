@@ -1,26 +1,27 @@
-D, [2019-04-29T23:18:50.364331 #26687] DEBUG -- : test_copy_dotfiles_does_not_make_a_backup_and_copies_files'
-I, [2019-04-29T23:18:50.364727 #26687]  INFO -- : /home/konnor/vps_cli/test/local_dir/.vimrc does not exist. No backup created.
-/home/konnor/vps_cli/test/local_dir/.pryrc does not exist. No backup created.
-/home/konnor/vps_cli/test/local_dir/.zshrc does not exist. No backup created.
-
-E, [2019-04-29T23:18:50.364741 #26687] ERROR -- : 
-hd_config.orig already exists. no backup created
-dotfiles copied to /home/konnor/vps_cli/test/local_dir
-backups created @ /home/konnor/vps_cli/test/backup_dir
-
-E, [2019-04-29T23:18:50.357650 #26687] ERROR -- : 
-D, [2019-04-29T23:18:50.358110 #26687] DEBUG -- : test_copy_works_properly'
-I, [2019-04-29T23:18:50.358493 #26687]  INFO -- : /home/konnor/vps_cli/test/local_dir/.vimrc does not exist. No backup created.
-/home/konnor/vps_cli/test/local_dir/.pryrc does not exist. No backup created.
-/home/konnor/vps_cli/test/local_dir/.zshrc does not exist. No backup created.
+D, [2019-05-02T04:11:17.663010 #22374] DEBUG -- : test_copy_sshd_config_works_in_testing_environment'
+I, [2019-05-02T04:11:17.663099 #22374]  INFO -- : 
+E, [2019-05-02T04:11:17.663110 #22374] ERROR -- : 
+ted.
+/home/konnor/vps_cli-core/test/local_dir/.pryrc does not exist. No backup created.
+/home/konnor/vps_cli-core/test/local_dir/.zshrc does not exist. No backup created.
 something went wrong with gnome, continuing on
-dotfiles copied to /home/konnor/vps_cli/test/local_dir
-backups created @ /home/konnor/vps_cli/test/backup_dir
+/home/konnor/vps_cli-core/test/backup_dir/sshd_config.orig already exists. no backup created
+dotfiles copied to /home/konnor/vps_cli-core/test/local_dir
+backups created @ /home/konnor/vps_cli-core/test/backup_dir
 
-E, [2019-04-29T23:18:50.358505 #26687] ERROR -- : 
-D, [2019-04-29T23:18:50.358970 #26687] DEBUG -- : test_copy_works_properly'
-I, [2019-04-29T23:18:50.359441 #26687]  INFO -- : something went wrong with gnome, continuing on
-dotfiles copied to /home/konnor/vps_cli/test/local_dir
-backups created @ /home/konnor/vps_cli/test/backup_dir
+E, [2019-05-02T04:11:17.664014 #22374] ERROR -- : 
+D, [2019-05-02T04:11:17.664575 #22374] DEBUG -- : test_copy_works_properly'
+I, [2019-05-02T04:11:17.665014 #22374]  INFO -- : /home/konnor/vps_cli-core/test/local_dir/.vimrc does not exist. No backup created.
+/home/konnor/vps_cli-core/test/local_dir/.pryrc does not exist. No backup created.
+/home/konnor/vps_cli-core/test/local_dir/.zshrc does not exist. No backup created.
+something went wrong with gnome, continuing on
+dotfiles copied to /home/konnor/vps_cli-core/test/local_dir
+backups created @ /home/konnor/vps_cli-core/test/backup_dir
 
-E, [2019-04-29T23:18:50.359452 #26687] ERROR -- : 
+E, [2019-05-02T04:11:17.665027 #22374] ERROR -- : 
+D, [2019-05-02T04:11:17.665554 #22374] DEBUG -- : test_copy_works_properly'
+I, [2019-05-02T04:11:17.666091 #22374]  INFO -- : something went wrong with gnome, continuing on
+dotfiles copied to /home/konnor/vps_cli-core/test/local_dir
+backups created @ /home/konnor/vps_cli-core/test/backup_dir
+
+E, [2019-05-02T04:11:17.666104 #22374] ERROR -- : 
