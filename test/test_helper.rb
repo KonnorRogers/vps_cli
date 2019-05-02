@@ -4,19 +4,12 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
 require 'minitest/autorun'
 require 'vps_cli'
+require 'vps_cli/configurations/testing_configuration.rb'
+
 require 'fileutils'
 require 'logger'
 
 TEST_ROOT = File.expand_path(__dir__)
-
-# BACKUP_DIR = File.join(TEST_ROOT, 'backup_dir')
-# LOCAL_DIR = File.join(TEST_ROOT, 'local_dir')
-# TEST_CONFIG_FILES = File.join(TEST_ROOT, 'config_files')
-# TEST_DOTFILES = File.join(TEST_CONFIG_FILES, 'dotfiles')
-# TEST_MISC_FILES = File.join(TEST_CONFIG_FILES, 'miscfiles')
-# TEST_LOCAL_SSHD_CONFIG = File.join(LOCAL_DIR, 'sshd_config')
-
-load 'vps_cli/lib/configurations/testing_configuration'
 LOG_DIR = File.join(TEST_ROOT, 'logs')
 
 ## HELPER METHODS ##
