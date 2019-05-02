@@ -8,6 +8,7 @@ VpsCli.configure do |config|
   config.local_dir = File.join(test_dir, 'local_dir')
   config.backup_dir = File.join(test_dir, 'backup_dir')
   config.local_sshd_config = File.join(config.local_dir, 'sshd_config')
+  config.sshd_backup = File.join(config.backup_dir, 'sshd_config.orig')
 
   config.config_files = File.join(test_dir, 'config_files')
   config.misc_files = File.join(config.config_files, 'miscfiles')

@@ -9,6 +9,7 @@ module VpsCli
   #   & vps_cli/config_files/miscfiles to your home dir
   class Copy
     extend FileHelper
+
     # Top level method for copying all files
     # @param [Hash] Provides options for copying files
     # @option opts [Dir] :local_dir ('Dir.home') Where to save the dotfiles to
@@ -24,25 +25,24 @@ module VpsCli
     # @option opts [Boolean] :testing (false) used internally for minitest
     # @raise [RuntimeError]
     #   Will raise this error if you run this method as root or sudo
-    def self.all(opts = {})
+    def self.all(config = VpsCli.configuration)
       # raises an error if the script is run as root
       return unless root? == false
 
       # fills in options that are not explicitly filled in
-      opts = VpsCli.create_options(opts)
-      FileHelper.mkdirs(opts[:local_dir], opts[:backup_dir])
+      FileHelper.mkdirs(config.local_dir, config.backup_dir)
 
       # copies dotfiles
-      dotfiles(opts)
+      dotfiles(config)
 
       # copies gnome_settings
-      gnome_settings(opts)
+      gnome_settings(config)
 
       # copies sshd_config
-      sshd_config(opts)
+      sshd_config(config)
 
-      puts "dotfiles copied to #{opts[:local_dir]}"
-      puts "backups created @ #{opts[:backup_dir]}"
+      puts "dotfiles copied to #{config.local_dir}"
+      puts "backups created @ #{config.backup_dir}"
     end
 
     # Copy files from 'config_files/dotfiles' directory via the copy_all method
@@ -55,19 +55,17 @@ module VpsCli
     # @option opts [Dir] :local_dir ('$HOME') Where to place the dotfiles,
     # @option opts [Dir] :dotfiles_dir ('/path/to/vps_cli/dotfiles')
     #   Location of files to be copied
-    def self.dotfiles(opts = {})
-      opts = VpsCli.create_options(opts)
+    def self.dotfiles(config = VpsCli.configuration)
+      Dir.each_child(config.dotfiles) do |file|
+        config_file = File.join(config.dotfiles, file)
+        local = File.join(config.local_dir, ".#{file}")
+        backup = File.join(config.backup_dir, "#{file}.orig")
 
-      Dir.each_child(opts[:dotfiles_dir]) do |file|
-        config = File.join(opts[:dotfiles_dir], file)
-        local = File.join(opts[:local_dir], ".#{file}")
-        backup = File.join(opts[:backup_dir], "#{file}.orig")
-
-        files_and_dirs(config_file: config,
+        files_and_dirs(config_file: config_file,
                        local_file: local,
                        backup_file: backup,
-                       verbose: opts[:verbose],
-                       interactive: opts[:interactive])
+                       verbose: config.verbose,
+                       interactive: config.interactive)
       end
     end
 
@@ -98,30 +96,30 @@ module VpsCli
     # @option opts [File] :misc_files_dir
     #   (/path/to/vps_cli/config_files/miscfiles)
     #   Directory to pull sshd_config from
-    def self.sshd_config(opts = {})
-      opts = VpsCli.create_options(opts)
+    def self.sshd_config(config = VpsCli.configuration)
+      # opts = VpsCli.create_options(opts)
 
-      opts[:local_sshd_config] ||= File.join('/etc', 'ssh', 'sshd_config')
-      return unless sshd_copyable?(opts[:local_sshd_config])
+      config.local_sshd_config ||= File.join('/etc', 'ssh', 'sshd_config')
+      return unless sshd_copyable?(config.local_sshd_config)
 
-      opts[:sshd_backup] ||= File.join(opts[:backup_dir], 'sshd_config.orig')
+      config.sshd_backup ||= File.join(config.backup_dir, 'sshd_config.orig')
 
-      misc_sshd_path = File.join(opts[:misc_files_dir], 'sshd_config')
+      misc_sshd_path = File.join(config.misc_files, 'sshd_config')
 
-      if File.exist?(opts[:local_sshd_config]) && !File.exist?(opts[:sshd_backup])
-        Rake.cp(opts[:local_sshd_config], opts[:sshd_backup])
+      if File.exist?(config.local_sshd_config) && !File.exist?(config.sshd_backup)
+        Rake.cp(config.local_sshd_config, config.sshd_backup)
       else
-        puts "#{opts[:sshd_backup]} already exists. no backup created"
+        puts "#{config.sshd_backup} already exists. no backup created"
       end
 
-      return Rake.cp(misc_sshd_path, opts[:local_sshd_config]) if opts[:testing]
+      return Rake.cp(misc_sshd_path, config.local_sshd_config) if config.testing
 
       # This method must be run this way due to it requiring root privileges
-      unless FileHelper.overwrite?(opts[:local_sshd_config], opts[:interactive])
+      unless FileHelper.overwrite?(config.local_sshd_config, config.interactive)
         return
       end
 
-      Rake.sh("sudo cp #{misc_sshd_path} #{opts[:local_sshd_config]}")
+      Rake.sh("sudo cp #{misc_sshd_path} #{config.local_sshd_config}")
     end
 
     # Deciphers between files & directories
@@ -140,20 +138,23 @@ module VpsCli
     # @param backup_dir [File] Where to save the current gnome terminal settings
     # @note This method will raise an error if dconf errors out
     #   The error will be saved to VpsCli.errors
-    def self.gnome_settings(opts = {})
-      backup = "#{opts[:backup_dir]}/gnome_terminal_settings.orig"
+    def self.gnome_settings(config = VpsCli.configuration)
+      backup = "#{config.backup_dir}/gnome_terminal_settings.orig"
 
       # This is the ONLY spot for gnome terminal
       gnome_path = '/org/gnome/terminal/'
+      gnome_file = File.join(config.misc_files, 'gnome_terminal_settings')
 
-      raise RuntimeError if opts[:testing]
+      raise RuntimeError if config.testing
+      raise RuntimeError unless File.exists?(gnome_file)
 
-      overwrite = proc { |file| FileHelper.overwrite?(file, opts[:interactive]) }
+      overwrite = proc { |file| FileHelper.overwrite?(file, config.interactive) }
       Rake.sh("dconf dump #{gnome_path} > #{backup}") if overwrite.call(backup)
 
-      Rake.sh("dconf load #{gnome_path} < #{MISC_FILES_DIR}/gnome_terminal_settings") if overwrite.call(gnome_path)
+      dconf_load = "dconf load #{gnome_path} < #{config.misc_files}/gnome_terminal_settings"
+      Rake.sh(dconf_load) if overwrite.call(gnome_path)
     rescue RuntimeError => error
-      puts 'something went wrong with gnome, continuing on' if opts[:verbose]
+      puts 'something went wrong with gnome, continuing on' if config.verbose
       VpsCli.errors << error
     end
 

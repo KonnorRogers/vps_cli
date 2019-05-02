@@ -30,18 +30,18 @@ def convert_to_origfiles(*files)
 end
 
 # @return [Hash] Hash of base options to be used for testing
-def test_options(opts = {})
-  opts[:backup_dir] = BACKUP_DIR
-  opts[:local_dir] = LOCAL_DIR
-  opts[:dotfiles_dir] = TEST_DOTFILES
-  opts[:misc_files_dir] = TEST_MISC_FILES
-  opts[:local_sshd_config] = TEST_LOCAL_SSHD_CONFIG
-  opts[:verbose] = true
-  opts[:testing] = true
-  opts[:interactive] = false
+# def test_options(opts = {})
+#   opts[:backup_dir] = BACKUP_DIR
+#   opts[:local_dir] = LOCAL_DIR
+#   opts[:dotfiles_dir] = TEST_DOTFILES
+#   opts[:misc_files_dir] = TEST_MISC_FILES
+#   opts[:local_sshd_config] = TEST_LOCAL_SSHD_CONFIG
+#   opts[:verbose] = true
+#   opts[:testing] = true
+#   opts[:interactive] = false
 
-  opts
-end
+#   opts
+# end
 
 # @param [File] Name of log file
 # @return [Logger] Returns a log file
@@ -85,21 +85,9 @@ def add_files(dir, *files)
   end
 end
 
-def add_files_to_dotfiles(*args)
-  args.flatten.each do |name|
-    add_files(TEST_DOTFILES, name)
-  end
-end
-
 def add_dirs(dir, *dirs)
   dirs.flatten.each do |name|
     FileUtils.mkdir_p(File.join(dir, name))
-  end
-end
-
-def add_dirs_to_dotfiles(*args)
-  args.flatten.each do |name|
-    add_dirs(TEST_DOTFILES, name)
   end
 end
 

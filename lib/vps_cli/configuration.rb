@@ -9,6 +9,7 @@ module VpsCli
   class Configuration
     # local files
     attr_accessor :local_dir, :backup_dir, :local_sshd_config
+    attr_accessor :sshd_backup
 
     # configuration files to be used
     attr_accessor :config_files, :misc_files, :dotfiles
@@ -21,6 +22,7 @@ module VpsCli
       @local_dir = Dir.home
       @backup_dir = File.join(Dir.home, 'backup_files')
       @local_sshd_config = File.join(Dir.home, '.ssh', 'sshd_config')
+      @sshd_backup = File.join(@backup_dir, 'sshd_config.orig')
 
       # values for items to be copied from
       # set to nil so that someone must set a path
