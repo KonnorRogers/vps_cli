@@ -1,4 +1,11 @@
 module VpsCli
+
+  # Used for keeping a consistent config across the entire project
+  # @example
+  #
+  # Used for keeping a consistent config across the entire project
+  # @example
+  #
   class Configuration
     # local files
     attr_accessor :local, :backup, :local_sshd_config
