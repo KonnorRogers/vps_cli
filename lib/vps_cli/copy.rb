@@ -2,7 +2,7 @@
 
 require 'rake'
 
-require 'vps_cli/file_helper'
+require 'vps_cli/helpers/file_helper'
 
 module VpsCli
   # Copies config from /vps_cli/config_files/dotfiles

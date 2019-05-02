@@ -3,8 +3,8 @@
 # @see https://ruby-doc.org/stdlib-2.6.0.preview2/libdoc/open3/rdoc/Open3.html
 require 'open3'
 require 'json'
-require 'vps_cli/access_helper'
-require 'vps_cli/github_http'
+require 'vps_cli/helpers/access_helper'
+require 'vps_cli/helpers/github_http'
 
 module VpsCli
   # Used for various things related to logins, ssh keys, etc
