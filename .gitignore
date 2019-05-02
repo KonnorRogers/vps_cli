@@ -10,4 +10,5 @@
 /tags
 *.log*
 
+*logs*
 /.tmp
