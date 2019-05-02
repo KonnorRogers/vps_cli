@@ -42,6 +42,17 @@ module VpsCli
     # VpsCli.errors now accessible module wide
     attr_accessor :errors
 
+    # Allows the user to be able to set global configurations
+    # @example
+    #   VpsCli.configure do |config|
+    #     config.local_dir = Dir.home
+    #     config.backup_dir = File.join(Dir.home, 'backup_files')
+    #     config.verbose = true
+    #   end
+    # This will set the local dir to the value of $HOME
+    #   The local dir is where files are copied to
+    attr_writer :configuration
+
     # Base set of options, will set the defaults for the various options
     # Take a hash due to people being able to set their own directories
     # @param [Hash] Takes the hash to modify
@@ -73,6 +84,15 @@ module VpsCli
       VpsCli::Access.provide_credentials(options)
       VpsCli::Copy.all(options)
     end
+  end
+
+  def self.configure
+    @configuration ||= Configuration.new
+    yield(configuration)
+  end
+
+  def self.configuration
+    @configuration ||= Configuration.new
   end
 
   # Creates an empty array of errors to push to
