@@ -11,13 +11,17 @@ class TestPull < Minitest::Test
     @test_dirs = %w[config dir2].freeze
     @sshd_config = 'sshd_config'
     @gnome_terminal = 'gnome_terminal_settings'
+
+    VpsCli.load_test_configuration
     @config = VpsCli.configuration
     @base_dirs = [@config.local_dir, @config.dotfiles, @config.misc_files, @config.config_files].freeze
+
     rm_dirs(@base_dirs)
     mk_dirs(@base_dirs)
   end
 
   def teardown
+    VpsCli.reset_configuration
     rm_dirs(@base_dirs)
   end
 

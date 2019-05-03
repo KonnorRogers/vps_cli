@@ -12,6 +12,7 @@ class TestCopy < Minitest::Test
     @test_files = %w[vimrc pryrc zshrc].freeze
     @test_dirs = %w[config dir2].freeze
 
+    VpsCli.load_test_configuration
     @config = VpsCli.configuration
     @base_dirs = [@config.backup_dir, @config.local_dir, @config.dotfiles, @config.misc_files].freeze
 
@@ -24,6 +25,7 @@ class TestCopy < Minitest::Test
   end
 
   def teardown
+    VpsCli.reset_configuration
     rm_dirs(@base_dirs)
   end
 

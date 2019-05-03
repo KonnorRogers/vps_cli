@@ -8,7 +8,7 @@ module VpsCli
     attr_accessor :sshd_backup
 
     # configuration files to be used
-    attr_accessor :config_files, :misc_files, :dotfiles
+    attr_accessor :config_files, :misc_files, :dotfiles, :yaml_file
 
     # used for displaying info
     attr_accessor :verbose, :interactive, :testing
@@ -25,6 +25,9 @@ module VpsCli
       @config_files = nil
       @dotfiles = nil
       @misc_files = nil
+
+      # Location of your SOPS encrypted yaml file
+      @yaml_file = nil
 
       # used for displaying info
       @verbose = false
@@ -46,6 +49,10 @@ module VpsCli
     @configuration = Configuration.new
   end
 
+  def self.load_test_configuration
+    test_config = File.join(File.expand_path(__dir__), 'configurations', 'testing_configuration.rb')
+    load_configuration(test_config)
+  end
   def self.load_configuration(file = File.join(Dir.home, '.vps_cli'))
     msg = 'Unable to location a configuration file. The default location is'
     msg += '$HOME/.vps_cli'
