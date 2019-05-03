@@ -37,14 +37,7 @@ module VpsCli
 
     # Copy files from 'config_files/dotfiles' directory via the copy_all method
     # Defaults are provided in the VpsCli.create_options method
-    # @see #VpsCli.create_options
-    # @see #all
-    # @param [Hash] Options hash
-    # @option opts [Dir] :backup_dir ('$HOME/backup_files)
-    #   Directory to place your original dotfiles.
-    # @option opts [Dir] :local_dir ('$HOME') Where to place the dotfiles,
-    # @option opts [Dir] :dotfiles_dir ('/path/to/vps_cli/dotfiles')
-    #   Location of files to be copied
+    # @see VpsCli::Configuration
     def self.dotfiles(config = VpsCli.configuration)
       Dir.each_child(config.dotfiles) do |file|
         config_file = File.join(config.dotfiles, file)

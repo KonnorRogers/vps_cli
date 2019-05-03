@@ -1,53 +1,33 @@
 # frozen_string_literal: true
 
 require 'rake'
+require 'vps_cli/helpers/file_helper'
 
 module VpsCli
   # Pull changes from local dir into config dir
   # to be able to push changes up to the config dir
   class Pull
     # Base pull method
-    # @see VpsCli#create_options for the defaults
-    # @param opts [Hash] Provides options for pulling files into a
-    #   specific destination directory
-    # @options opts [Dir] :local_dir ('$HOME')
-    #   Where the local dotfiles are located
-    # @option opts [Dir] :dotfiles_dir
-    #   ('/path/to/vps_cli/config_files/dotfiles') Where to save the dotfiles to
-    # @option opts [Dir] :misc_files_dir
-    #   ('/path/to/vps_cli/config_files/misc_files')
-    #   Location of misc_files in remote directory IE: git repo
-    # @option opts [File] :local_sshd_config ('/etc/ssh/sshd_config')
-    #   local directory containing sshd_config that currently exists
-    # @option opts [Boolean] :verbose (false)
-    #   Whether or not to print additional info
-
-    def self.all(opts = {})
-      opts = VpsCli.create_options(opts)
-
+    # @param config [VpsCli::Configuration] The configuration to use
+    # @see VpsCli::Configuration
+    def self.all(config = VpsCli.configuration)
       # pulls dotfiles into specified directory
-      dotfiles(opts)
+      dotfiles(config)
 
-      # pulls from opts[:local_sshd_config]
-      sshd_config(opts)
+      # pulls from config.local_sshd_config
+      sshd_config(config)
 
       # pulls via dconf
-      gnome_terminal_settings(opts)
+      gnome_terminal_settings(config)
     end
 
-    # @see VpsCli#create_options for defaults
-    # @param opts [Hash] Provides options for pulling dotfiles
-    # @options opts [Dir] :local_dir ('$HOME') Where the dotfiles are locally
-    # @options opts [Dir] :dotfiles_dir
-    #   ('/path/to/vps_cli/config_files/dotfiles')
-    #   location of the dotfiles to be modified
-    # @options opts [Dir] :verbose (false)
 
-    def self.dotfiles(opts = {})
-      opts = VpsCli.create_options(opts)
+    # Pulls dotfiles from config.local into your
+    #   specified config.dotfiles location
+    def self.dotfiles(config = VpsCli.configuration)
 
-      common_dotfiles(opts[:dotfiles_dir],
-                      opts[:local_dir]) do |remote_file, local_file|
+      common_dotfiles(config.dotfiles,
+                      config.local_dir) do |remote_file, local_file|
         copy_file_or_dir(local_file, remote_file)
       end
     end
@@ -91,36 +71,19 @@ module VpsCli
       end
     end
 
-    # @see VpsCli#create_options for the defaults
-    # @param opts [Hash] Provides options for pulling files into a
-    #   specific destination directory
-    # @option opts [File] :local_sshd_config ('/etc/ssh/sshd_config')
-    #   directory containing sshd_config
-    # @option opts [Dir] :misc_files_dir
-    #   ('/path/to/vps_cli/config_files/misc_files')
-    # @option opts [Boolean] :verbose (false)
-    #   Whether or not to print additional info
-    def self.sshd_config(opts = {})
-      opts = VpsCli.create_options(opts)
-
-      local = opts[:local_sshd_config]
-      remote = opts[:misc_files_dir]
+    # Pulls sshd_config from config.local_sshd_config into config.misc_files
+    def self.sshd_config(config = Configuration.new)
+      local = config.local_sshd_config
+      remote = config.misc_files
 
       copy_file_or_dir(local, remote)
     end
 
-    # @see VpsCli#create_options for defaults
-    # @param options [Hash] Provides options for pulling your gnome config
-    # @option opts [Dir] :misc_files_dir
-    #   ('/path/to/vps_cli/misc_files/gnome_terminal_settings')
-    #   Where to save gnome settings
-    # @option opts [Boolean] :verbose
-    def self.gnome_terminal_settings(opts = {})
-      opts = VpsCli.create_options(opts)
-
+    # Pulls the local config of gnome into the given config.misc_files
+    def self.gnome_terminal_settings(config = VpsCli.configuration)
       # This is where dconf stores gnome terminal
       gnome_dconf = '/org/gnome/terminal/'
-      remote_settings = File.join(opts[:misc_files_dir],
+      remote_settings = File.join(config.misc_files,
                                   'gnome_terminal_settings')
 
       orig_remote_contents = File.read(remote_settings)
@@ -132,7 +95,7 @@ module VpsCli
       # So this protects against that
       reset_to_original(remote_settings, orig_remote_contents)
     else
-      puts "Successfully dumped Gnome into #{remote_settings}" if opts[:verbose]
+      puts "Successfully dumped Gnome into #{remote_settings}" if config.verbose
     end
 
     # Method intended for dealing with the way dconf will automatically

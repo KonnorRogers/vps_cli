@@ -103,7 +103,8 @@ module FileHelper
   # @see ask_permission
   # @param from [File] File to copy from
   # @param to [File] File to copy to
-  # @param interactive [Boolean] (false) asks whether or not to create the file
+  # @param config [VpsCli::Configuration] (VpsCli#configuration)
+  #   uses the default config provided by the VpsCli module
   def self.copy_file(from, to, interactive = false)
     Rake.cp(from, to) if overwrite?(to, interactive)
   end

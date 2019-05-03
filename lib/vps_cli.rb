@@ -67,18 +67,18 @@ module VpsCli
     #   :local_sshd_config
     #   :verbose
     #   :testing
-    def create_options(opts = {})
-      opts[:backup_dir] ||= BACKUP_FILES_DIR
-      opts[:local_dir] ||= Dir.home
-      opts[:dotfiles_dir] ||= DOTFILES_DIR
-      opts[:misc_files_dir] ||= MISC_FILES_DIR
-      opts[:local_sshd_config] ||= '/etc/ssh/sshd_config'
+    # def create_options(opts = {})
+    #   opts[:backup_dir] ||= BACKUP_FILES_DIR
+    #   opts[:local_dir] ||= Dir.home
+    #   opts[:dotfiles_dir] ||= DOTFILES_DIR
+    #   opts[:misc_files_dir] ||= MISC_FILES_DIR
+    #   opts[:local_sshd_config] ||= '/etc/ssh/sshd_config'
 
-      opts[:verbose] = false if opts[:verbose].nil?
-      opts[:interactive] = true if opts[:interactive].nil?
+    #   opts[:verbose] = false if opts[:verbose].nil?
+    #   opts[:interactive] = true if opts[:interactive].nil?
 
-      opts
-    end
+    #   opts
+    # end
 
     def full_install(options = {})
       VpsCli::Setup.full
@@ -95,6 +95,10 @@ module VpsCli
 
   def self.configuration
     @configuration ||= Configuration.new
+  end
+
+  def self.reset_configuration
+    @configuration = Configuration.new
   end
 
   # Creates an empty array of errors to push to
