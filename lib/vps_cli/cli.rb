@@ -8,19 +8,18 @@ module VpsCli
   # Integrates Thor
   # @see http://whatisthor.com/
   class Cli < Thor
-    PROJECT_DIR = File.expand_path('../..', __dir__)
     # this is available as a flag for all methods
+    class_option :config, aliases: :c, default: File.join(Dir.home, '.vps_cli')
     class_option :verbose, type: :boolean, aliases: :v, default: false
     class_option :interactive, type: :boolean, aliases: :i, default: false
     class_option :all, type: :boolean, aliases: :a, default: false
 
     class_options %i[local_dir backup_dir local_sshd_config]
 
-    desc 'fresh_install', 'accepts not arguments, my own personal command'
+
+    desc 'fresh_install', 'accepts no arguments, my own personal command'
     def fresh_install
-      opts = options.dup
-      opts[:yaml_file] = File.join(Dir.home, '.credentials.yaml')
-      Copy.all(opts)
+      Copy.all
       Install.all_install
 
       Access.provide_credentials(opts.dup)
@@ -37,7 +36,7 @@ module VpsCli
 
     desc 'copy [OPTIONS]', 'Copies files from <vps_cli/config_files>'
     def copy
-      Copy.all(options.dup) if options[:all]
+      Copy.all if options[:all]
     end
 
     desc 'pull [OPTIONS]', 'Pulls files into your vps_cli repo'
@@ -82,7 +81,7 @@ module VpsCli
 
     no_commands do
       def swap_dir
-        Rake.cd(PROJECT_DIR)
+        Rake.cd(VpsCli.config_files)
         yield
       end
     end

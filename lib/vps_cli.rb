@@ -3,6 +3,7 @@
 lib = File.expand_path(__dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
+require 'vps_cli/configuration'
 require 'vps_cli/access'
 require 'vps_cli/helpers/access_helper'
 require 'vps_cli/cli'
@@ -14,7 +15,6 @@ require 'vps_cli/pull'
 require 'vps_cli/setup'
 require 'vps_cli/version'
 require 'vps_cli/helpers/github_http'
-require 'vps_cli/configuration'
 
 # Used for setting up a ubuntu environment
 module VpsCli
@@ -86,19 +86,6 @@ module VpsCli
       VpsCli::Access.provide_credentials(options)
       VpsCli::Copy.all(options)
     end
-  end
-
-  def self.configure
-    @configuration ||= Configuration.new
-    yield(configuration)
-  end
-
-  def self.configuration
-    @configuration ||= Configuration.new
-  end
-
-  def self.reset_configuration
-    @configuration = Configuration.new
   end
 
   # Creates an empty array of errors to push to
