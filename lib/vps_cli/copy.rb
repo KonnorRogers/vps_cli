@@ -11,18 +11,8 @@ module VpsCli
     extend FileHelper
 
     # Top level method for copying all files
-    # @param [Hash] Provides options for copying files
-    # @option opts [Dir] :local_dir ('Dir.home') Where to save the dotfiles to
-    # @option opts [Dir] :backup_dir ('$HOME/backup_files') Where to backup
-    #   currently existing dotfiles
-    # @option opts [File] :local_sshd_config ('/etc/ssh/sshd_config')
-    #   directory containing sshd_config
-    # @option opts [Boolean] :verbose (false)
-    #   Whether or not to print additional info
-    # @option opts [Boolean] :interactive (true)
-    #   Before overwriting any file, it will ask permission to overwrite.
-    #   It will also still create the backup
-    # @option opts [Boolean] :testing (false) used internally for minitest
+    # Will use the configurations set by VpsCli.configuration
+    #   unless passed a different config
     # @raise [RuntimeError]
     #   Will raise this error if you run this method as root or sudo
     def self.all(config = VpsCli.configuration)
@@ -83,21 +73,13 @@ module VpsCli
       VpsCli.errors << Exception.new(no_sshd_config)
     end
 
-    # Copies sshd_config to the local_sshd_config location
-    #   Defaults to [/etc/ssh/sshd_config]
+    # Copies sshd_config to the VpsCli.configuration.local_sshd_config
+    #   location
+    #   Defaults to [/etc/ssh/sshd_config] if not set
     #   This is slightly different from other copy methods in this file
     #   It uses Rake.sh("sudo cp")
     #   Due to copying to /etc/ssh/sshd_config requiring root permissions
-    # @options opts [Hash] Set of options for files
-    # @option opts [Dir] :backup_dir ($HOME/backup_files)
-    #   Directory for backing up your original sshd_config file
-    # @option opts [File] :local_sshd_config (/etc/ssh/sshd_config)
-    #   File containing your original sshd_config file
-    # @option opts [File] :misc_files_dir
-    #   (/path/to/vps_cli/config_files/miscfiles)
-    #   Directory to pull sshd_config from
     def self.sshd_config(config = VpsCli.configuration)
-      # opts = VpsCli.create_options(opts)
 
       config.local_sshd_config ||= File.join('/etc', 'ssh', 'sshd_config')
       return unless sshd_copyable?(config.local_sshd_config)
@@ -123,6 +105,8 @@ module VpsCli
     end
 
     # Deciphers between files & directories
+    # Also utilizes the settings from your configuration to properly
+    #   copy things
     # @see VpsCli::FileHelper#copy_dirs
     # @see VpsCli::FileHelper#copy_files
     def self.files_and_dirs(opts = {})
@@ -135,7 +119,7 @@ module VpsCli
 
     # Copies gnome terminal via dconf
     # @see https://wiki.gnome.org/Projects/dconf dconf wiki
-    # @param backup_dir [File] Where to save the current gnome terminal settings
+    # @param config [VpsCli::Configuration] Where to save the current gnome terminal settings
     # @note This method will raise an error if dconf errors out
     #   The error will be saved to VpsCli.errors
     def self.gnome_settings(config = VpsCli.configuration)

@@ -16,7 +16,7 @@ VpsCli.configure do |config|
 
   config.verbose = true
   config.interactive = false
-  config.testing = false
+  config.testing = true
 end
 
 # puts VpsCli.configuration.local_dir
