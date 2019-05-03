@@ -3,6 +3,11 @@ require 'test_helper'
 class TestConfiguration < Minitest::Test
   def setup
     @logger = create_logger(__FILE__)
+    VpsCli.load_test_configuration
+  end
+
+  def teardown
+    VpsCli.reset_configuration
   end
 
   def test_should_set_a_default_testing_configuration_with_no_nil_values

@@ -58,7 +58,7 @@ module VpsCli
     msg += '$HOME/.vps_cli'
     msg += "\nTo create a standard default config, run 'vps-cli init'"
 
-    raise Exception, msg unless File.exists?(file)
+    raise Exception, msg unless File.exist?(file)
 
     load file
   end
