@@ -117,7 +117,6 @@ class TestAccess < Minitest::Test
     final_string = "#{machine}#{login}#{password}"
 
     test_string = ''
-    p @credentials
     log_methods(@logger) do
       test_string = Access.heroku_api_string(yaml_file: @credentials)
     end
