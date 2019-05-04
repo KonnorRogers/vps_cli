@@ -27,6 +27,12 @@ module VpsCli
       VpsCli.errors.each { |error| puts error.message }
     end
 
+
+    desc 'init [File]', 'Creates a default vps_cli configuration file in the home directory'
+    def init(file = opts[:config])
+
+    end
+
     desc 'install_gems', 'runs gem install on all gems in packages.rb'
     def install_gems
       Packages::GEMS.each do |g|
@@ -57,12 +63,12 @@ module VpsCli
       VpsCli.errors.each { |error| puts error.message }
     end
 
-    desc 'git_pull', 'Automatically pulls in changes from remote repo'
+    desc 'git_pull', 'Automatically pulls in changes in your config_files repo'
     def git_pull
       swap_dir { Rake.sh('git pull') }
     end
 
-    desc 'git_push [message]', 'Automatically pushes changes to your remote repo'
+    desc 'git_push [message]', 'Automatically pushes changes of your config_files'
     def git_push(message = nil)
 
       message ||= "auto push files"
@@ -74,14 +80,14 @@ module VpsCli
       end
     end
 
-    desc 'git_status', 'provides the status of your repo'
+    desc 'git_status', 'provides the status of your config_files'
     def git_status
       swap_dir { Rake.sh('git status') }
     end
 
     no_commands do
       def swap_dir
-        Rake.cd(VpsCli.config_files)
+        Rake.cd(VpsCli.configuration.config_files)
         yield
       end
     end
