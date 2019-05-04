@@ -13,7 +13,7 @@ module VpsCli
 
     desc 'fresh_install', 'accepts no arguments, my own personal command'
     def fresh_install
-      load_configuration(options[:config])
+      VpsCli.load_configuration(options[:config])
       Copy.all
       Install.all_install
 
@@ -37,14 +37,14 @@ module VpsCli
 
     desc 'copy [OPTIONS]', 'Copies files from <vps_cli/config_files>'
     def copy
-      load_configuration(options[:config])
+      VpsCli.load_configuration(options[:config])
       Copy.all if options[:all]
     end
 
     desc 'pull [OPTIONS]', 'Pulls files into your vps_cli repo'
     options %i[dotfiles_dir misc_files_dir]
     def pull
-      load_configuration(options[:config])
+      VpsCli.load_configuration(options[:config])
       Pull.all if options[:all]
     end
 
