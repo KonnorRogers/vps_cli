@@ -24,8 +24,6 @@ class TestAccess < Minitest::Test
     VpsCli.reset_configuration
   end
 
-  Minitest.after_run { rm_dirs(@access_dir) }
-
   def test_writes_to_netrc_file_if_not_given_a_file_that_exists
     # checks the file is empty
     # assert File.zero? @netrc_file
@@ -119,6 +117,7 @@ class TestAccess < Minitest::Test
     final_string = "#{machine}#{login}#{password}"
 
     test_string = ''
+    p @credentials
     log_methods(@logger) do
       test_string = Access.heroku_api_string(yaml_file: @credentials)
     end
