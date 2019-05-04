@@ -10,11 +10,6 @@ module VpsCli
   class Cli < Thor
     # this is available as a flag for all methods
     class_option :config, aliases: :c, default: File.join(Dir.home, '.vps_cli')
-    class_option :verbose, type: :boolean, aliases: :v, default: false
-    class_option :interactive, type: :boolean, aliases: :i, default: false
-    class_option :all, type: :boolean, aliases: :a, default: false
-
-    class_options %i[local_dir backup_dir local_sshd_config]
 
     desc 'fresh_install', 'accepts no arguments, my own personal command'
     def fresh_install
@@ -42,13 +37,15 @@ module VpsCli
 
     desc 'copy [OPTIONS]', 'Copies files from <vps_cli/config_files>'
     def copy
+      load_configuration(options[:config])
       Copy.all if options[:all]
     end
 
     desc 'pull [OPTIONS]', 'Pulls files into your vps_cli repo'
     options %i[dotfiles_dir misc_files_dir]
     def pull
-      Pull.all(options.dup) if options[:all]
+      load_configuration(options[:config])
+      Pull.all if options[:all]
     end
 
     desc 'install [OPTIONS]', 'installs based on the flag provided'
@@ -60,7 +57,13 @@ module VpsCli
 
       return if VpsCli.errors.empty?
 
-      VpsCli.errors.each { |error| puts error.message }
+      VpsCli.errors.each do |error|
+        if error.responds_to?(:message)
+          puts error.message
+        else
+          puts error
+        end
+      end
     end
 
     desc 'git_pull', 'Automatically pulls in changes in your config_files repo'
@@ -87,6 +90,7 @@ module VpsCli
 
     no_commands do
       def swap_dir
+        load_configuration(options[:config])
         Rake.cd(VpsCli.configuration.config_files)
         yield
       end
