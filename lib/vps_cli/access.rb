@@ -21,7 +21,7 @@ module VpsCli
 
     # fixing to accept a configuration
     def self.provide_credentials(config = VpsCli.configuration)
-      if opts[:yaml_file]
+      if File.exist?(config.credentials)
         file_login(yaml_file: config.credentials, netrc_file: config.netrc)
       else
         command_line_login
@@ -143,11 +143,8 @@ module VpsCli
     #   url of the api youd like to hit
     # @option opts [File] :yaml_file (nil) the file to decrypt values with.
     #
-    def self.post_github_ssh_key(opts = {})
-      uri = opts[:uri] ||= URI('https://api.github.com/user/keys')
-
-      default_yaml_file = File.join(Dir.home, '.credentials.yaml')
-      yaml_file = opts[:yaml_file] ||= default_yaml_file
+    def self.post_github_ssh_key(config = VpsCli.configuration)
+      uri = URI('https://api.github.com/user/keys')
 
       api_token = proc do |yaml, path|
         decrypt(yaml_file: yaml, path: path)
@@ -155,9 +152,9 @@ module VpsCli
 
       api_path = dig_for_path(:github, :api_token)
 
-      token = opts[:api_token] ||= api_token.call(yaml_file, api_path)
+      token = api_token.call(config.credentials, api_path)
       ssh_file = opts[:ssh_file] ||= File.join(Dir.home, '.ssh', 'id_rsa.pub')
-      title = opts[:title] ||= get_title
+      title = get_title
 
       github = GithubHTTP.new(uri: uri, token: token,
                               ssh_file: ssh_file, title: title)
