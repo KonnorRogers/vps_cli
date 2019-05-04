@@ -30,7 +30,7 @@ module VpsCli
 
     desc 'init [-c (File)]', 'Creates a default vps_cli configuration file in the home directory'
     def init(file = options[:config])
-      create_configuration(file)
+      VpsCli.create_configuration(file)
     end
 
     desc 'install_gems', 'runs gem install on all gems in packages.rb'

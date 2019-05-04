@@ -69,7 +69,7 @@ module VpsCli
     msg += "\nPlease modify any values that are nil"
 
     puts msg
-    default_config = File.join(File.expand_path(__dir__), 'default_configuration.rb')
+    default_config = File.join(File.expand_path(__dir__), 'configurations', 'default_configuration.rb')
 
     Rake.cp(default_config, file)
   end
