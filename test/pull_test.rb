@@ -21,8 +21,8 @@ class TestPull < Minitest::Test
   end
 
   def teardown
-    VpsCli.reset_configuration
     rm_dirs(@base_dirs)
+    VpsCli.reset_configuration
   end
 
   def create_local_and_remote_files

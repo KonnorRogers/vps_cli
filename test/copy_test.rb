@@ -14,7 +14,7 @@ class TestCopy < Minitest::Test
 
     VpsCli.load_test_configuration
     @config = VpsCli.configuration
-    @base_dirs = [@config.backup_dir, @config.local_dir, @config.dotfiles, @config.misc_files].freeze
+    @base_dirs = [@config.backup_dir, @config.local_dir, @config.dotfiles, @config.misc_files, @config.config_files].freeze
 
     rm_dirs(@base_dirs)
     mk_dirs(@base_dirs)
@@ -25,8 +25,8 @@ class TestCopy < Minitest::Test
   end
 
   def teardown
-    VpsCli.reset_configuration
     rm_dirs(@base_dirs)
+    VpsCli.reset_configuration
   end
 
   def test_copy_dotfiles_does_not_make_a_backup_and_copies_files
