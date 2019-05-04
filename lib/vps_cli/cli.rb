@@ -90,7 +90,7 @@ module VpsCli
 
     no_commands do
       def swap_dir
-        load_configuration(options[:config])
+        VpsCli.load_configuration(options[:config])
         Rake.cd(VpsCli.configuration.config_files)
         yield
       end
