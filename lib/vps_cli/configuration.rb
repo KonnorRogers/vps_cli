@@ -53,6 +53,7 @@ module VpsCli
     test_config = File.join(File.expand_path(__dir__), 'configurations', 'testing_configuration.rb')
     load_configuration(test_config)
   end
+
   def self.load_configuration(file = File.join(Dir.home, '.vps_cli'))
     msg = 'Unable to location a configuration file. The default location is'
     msg += '$HOME/.vps_cli'

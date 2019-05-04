@@ -16,9 +16,9 @@ module VpsCli
 
     class_options %i[local_dir backup_dir local_sshd_config]
 
-
     desc 'fresh_install', 'accepts no arguments, my own personal command'
     def fresh_install
+      load_configuration(options[:config])
       Copy.all
       Install.all_install
 
@@ -28,9 +28,9 @@ module VpsCli
     end
 
 
-    desc 'init [File]', 'Creates a default vps_cli configuration file in the home directory'
-    def init(file = opts[:config])
-
+    desc 'init [-c (File)]', 'Creates a default vps_cli configuration file in the home directory'
+    def init(file = options[:config])
+      create_configuration(file)
     end
 
     desc 'install_gems', 'runs gem install on all gems in packages.rb'
