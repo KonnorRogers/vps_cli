@@ -18,6 +18,8 @@ module VpsCli
     #     I prefer to use authentication tokens versus sending
     #     regular access info
     # @return void
+
+    # fixing to accept a configuration
     def self.provide_credentials(config = VpsCli.configuration)
       if opts[:yaml_file]
         file_login(yaml_file: config.credentials, netrc_file: config.netrc)
@@ -25,6 +27,7 @@ module VpsCli
         command_line_login
       end
 
+      # originally accepts an opts arguemnt
       generate_ssh_key(config)
       post_github_ssh_key(config)
     end
