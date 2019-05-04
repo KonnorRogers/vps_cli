@@ -11,36 +11,22 @@ module VpsCli
   class Access
     extend AccessHelper
     # logs into various things either via a .yaml file or via cmd line
-    # @param opts [Hash] For a full list of options view the following method:
-    # @option opts [File] :netrc_file (~/.netrc) Default spot to write netrc
-    # @option opts [String] :ssh_title (nil) the name for your ssh key
-    # The following values are pulled from: @see #generate_ssh_key
-    # @option opts [String] :type ('rsa') What kind of encryption
-    #   You want for your ssh key
-    # @option opts [Fixnum] :bits (4096) Strength of encryption
-    # @option opts [String] :email (#get_email) The email comment
-    #   to add to the end of the ssh key
-    # @option opts [String, File] :output_file (~/.ssh/id_rsa)
-    #   Where you want the key to be saved
-    # @option opts [Boolean] :create_password (nil)
-    #   if true, prompt to create a password
-    # @option opts [File] :yaml_file (~/.credentials.yaml) The yaml file to be used.
-    #   MUST BE ENCRYPTED VIA SOPS
+    # Accepts a Configuration object or a hash
     #   @see https://github.com/mozilla/sops
     #   @see VpsCli::Access#decrypt
     #   @see https://github.com/settings/tokens
     #     I prefer to use authentication tokens versus sending
     #     regular access info
     # @return void
-    def self.provide_credentials(opts = {})
+    def self.provide_credentials(config = VpsCli.configuration)
       if opts[:yaml_file]
-        file_login(yaml_file: opts[:yaml_file], netrc_file: opts[:netrc_file])
+        file_login(yaml_file: config.credentials, netrc_file: config.netrc)
       else
         command_line_login
       end
 
-      generate_ssh_key(opts)
-      post_github_ssh_key(opts)
+      generate_ssh_key(config)
+      post_github_ssh_key(config)
     end
 
     # Provides all login credentials via a SOPS encrypted yaml file
