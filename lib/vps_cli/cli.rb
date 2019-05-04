@@ -38,14 +38,14 @@ module VpsCli
     desc 'copy [OPTIONS]', 'Copies files from <vps_cli/config_files>'
     def copy
       VpsCli.load_configuration(options[:config])
-      Copy.all if options[:all]
+      Copy.all
     end
 
     desc 'pull [OPTIONS]', 'Pulls files into your vps_cli repo'
     options %i[dotfiles_dir misc_files_dir]
     def pull
       VpsCli.load_configuration(options[:config])
-      Pull.all if options[:all]
+      Pull.all
     end
 
     desc 'install [OPTIONS]', 'installs based on the flag provided'

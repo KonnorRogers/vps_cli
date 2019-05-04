@@ -8,7 +8,7 @@ VpsCli.configure do |config|
   # saved to
   config.local_dir = Dir.home
   config.backup_dir = File.join(Dir.home, 'backup_files')
-  config.local_sshd_config = File.join(Dir.home, '.ssh', 'sshd_config')
+  config.local_sshd_config = File.join('/etc', 'ssh', 'sshd_config')
 
   # You must set these values yourself
 
