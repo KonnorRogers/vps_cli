@@ -8,16 +8,20 @@ class TestAccess < Minitest::Test
 
   def setup
     @logger = create_logger(__FILE__)
-    @access_dir = 'test_access_dir'
-    @netrc_file = File.join(@access_dir, 'netrc')
 
-    @root_dir = File.expand_path('../', __dir__)
-    @yaml_file = File.join(@root_dir, 'example_credentials.yaml')
+    VpsCli.load_test_configuration
+    @config = VpsCli.configuration
+    @access_dir = File.basename(@config.netrc)
+    @netrc_file = @config.netrc
+
+    @credentials = @config.credentials
+    rm_dirs(@access_dir)
     mk_dirs(@access_dir)
   end
 
   def teardown
     rm_dirs(@access_dir)
+    VpsCli.reset_configuration
   end
 
   def test_writes_to_netrc_file_if_not_given_a_file_that_exists
@@ -75,7 +79,7 @@ class TestAccess < Minitest::Test
 
     test_string = ''
     log_methods(@logger) do
-      test_string = Access.decrypt(yaml_file: @yaml_file, path: path)
+      test_string = Access.decrypt(yaml_file: @credentials, path: path)
     end
 
     assert_equal actual_login_string, test_string
@@ -87,7 +91,7 @@ class TestAccess < Minitest::Test
 
     test_string = ''
     log_methods(@logger) do
-      test_string = Access.decrypt(yaml_file: @yaml_file, path: path)
+      test_string = Access.decrypt(yaml_file: @credentials, path: path)
     end
 
     assert_empty test_string
@@ -114,7 +118,7 @@ class TestAccess < Minitest::Test
 
     test_string = ''
     log_methods(@logger) do
-      test_string = Access.heroku_api_string(yaml_file: @yaml_file)
+      test_string = Access.heroku_api_string(yaml_file: @credentials)
     end
 
     assert_equal final_string, test_string
@@ -129,7 +133,7 @@ class TestAccess < Minitest::Test
 
     test_string = ''
     log_methods(@logger) do
-      test_string = Access.heroku_git_string(yaml_file: @yaml_file)
+      test_string = Access.heroku_git_string(yaml_file: @credentials)
     end
 
     assert_equal final_string, test_string
@@ -148,7 +152,7 @@ class TestAccess < Minitest::Test
     final_string += "#{git_machine}#{git_login}#{git_password}"
 
     log_methods(@logger) do
-      Access.heroku_file_login(netrc_file: @netrc_file, yaml_file: @yaml_file)
+      Access.heroku_file_login(netrc_file: @netrc_file, yaml_file: @credentials)
     end
 
     netrc_file_contents = File.read(@netrc_file)

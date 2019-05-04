@@ -13,7 +13,9 @@ VpsCli.configure do |config|
   config.config_files = File.join(test_dir, 'config_files')
   config.misc_files = File.join(config.config_files, 'miscfiles')
   config.dotfiles = File.join(config.config_files, 'dotfiles')
-  config.yaml_file = File.join(File.expand_path('../../../'), 'example_credentials.yaml')
+  config.credentials = File.join(File.expand_path('../../../'), 'example_credentials.yaml')
+  config.netrc = File.join(test_dir, 'access_dir', 'netrc')
+
 
   config.verbose = true
   config.interactive = false

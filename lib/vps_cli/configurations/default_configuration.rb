@@ -14,15 +14,23 @@ VpsCli.configure do |config|
 
   # Location of your config files
   # config.config_files = File.join(Dir.home, 'config_files')
-  config.config_files = nil
+  # This is just used for easier git pulling and git pushing
+
+  config.config_files = File.join(Dir.home, 'vps_setup')
 
   # Location of your dotfiles
-  # config.config_files = File.join(Dir.home, 'config_files', 'dotfiles')
-  config.dotfiles = nil
+  # config.dotfiles = File.join(Dir.home, 'vps_setup', 'dotfiles')
+  config.dotfiles = File.join(config.config_files, 'dotfiles')
 
   # Location of your dotfiles
-  # config.config_files = File.join(Dir.home, 'config_files', 'dotfiles')
-  config.misc_files = nil
+  # config.dotfiles = File.join(Dir.home, 'config_files', 'dotfiles')
+  config.misc_files = File.join(config.config_files, 'misc_files')
+
+  # credentials.yaml file, wherever its located, for me I have it in the home dir
+  config.credentials = File.join(Dir.home, '.credentials.yaml')
+
+  # location of your .netrc file, usually ~/.netrc
+  config.netrc = File.join(Dir.home, '.netrc')
 
   config.verbose = false
 

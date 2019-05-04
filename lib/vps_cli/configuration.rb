@@ -8,7 +8,8 @@ module VpsCli
     attr_accessor :sshd_backup
 
     # configuration files to be used
-    attr_accessor :config_files, :misc_files, :dotfiles, :yaml_file
+    attr_accessor :config_files, :misc_files, :dotfiles
+    attr_accessor :credentials, :netrc
 
     # used for displaying info
     attr_accessor :verbose, :interactive, :testing
@@ -27,7 +28,8 @@ module VpsCli
       @misc_files = nil
 
       # Location of your SOPS encrypted yaml file
-      @yaml_file = nil
+      @credentials = nil
+      @netrc = nil
 
       # used for displaying info
       @verbose = false
