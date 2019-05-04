@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   if spec.respond_to?(:metadata)
     spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
 
-    spec.metadata['homepage_uri'] = spec.homepage
+    spec.metadata['homepage_uri'] = 'https://github.com/ParamagicDev/vps_cli'
     spec.metadata['source_code_uri'] = 'https://github.com/ParamagicDev/vps_cli'
     spec.metadata['changelog_uri'] = 'https://github.com/ParamagicDev/vps_cli'
   else
