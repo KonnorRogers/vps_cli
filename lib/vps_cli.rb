@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-lib = File.expand_path(__dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-
 require 'vps_cli/configuration'
 require 'vps_cli/access'
 require 'vps_cli/helpers/access_helper'
