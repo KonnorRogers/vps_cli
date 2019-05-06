@@ -72,7 +72,7 @@ module VpsCli
       VpsCli.errors << response if response != Net::HTTPCreated
 
       puts 'ssh key pushed to github' if response.class == Net::HTTPCreated
-      response
+      p response
     end
 
     # @param token [String] Your github api token
