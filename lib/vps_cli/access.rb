@@ -28,7 +28,7 @@ module VpsCli
       end
 
       # originally accepts an opts arguemnt
-      generate_ssh_key(config)
+      generate_ssh_key
       post_github_ssh_key(config)
     end
 
@@ -119,14 +119,14 @@ module VpsCli
     #   Where you want the key to be saved
     # @option opts [Boolean] :create_password (nil)
     #   if true, prompt to create a password
-    def self.generate_ssh_key(opts = {})
-      o_file = opts[:output_file] ||= File.join(Dir.home, '.ssh', 'id_rsa')
+    def self.generate_ssh_key
+      o_file = File.join(Dir.home, '.ssh', 'id_rsa')
 
       return puts 'ssh key already exists' if File.exist?(o_file)
 
-      type = opts[:type] ||= 'rsa'
-      bits = opts[:bits] ||= 4096
-      email = opts[:email] ||= get_email
+      type = 'rsa'
+      bits = 4096
+      email = get_email
 
       no_pass = ' -P ""' unless opts[:create_password]
 
@@ -153,7 +153,7 @@ module VpsCli
       api_path = dig_for_path(:github, :api_token)
 
       token = api_token.call(config.credentials, api_path)
-      ssh_file = opts[:ssh_file] ||= File.join(Dir.home, '.ssh', 'id_rsa.pub')
+      ssh_file = File.join(Dir.home, '.ssh', 'id_rsa.pub')
       title = get_title
 
       github = GithubHTTP.new(uri: uri, token: token,
