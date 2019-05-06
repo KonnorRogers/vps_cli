@@ -17,7 +17,7 @@ module VpsCli
       Copy.all
       Install.all_install
 
-      Access.provide_credentials(opts.dup)
+      Access.provide_credentials
 
       VpsCli.errors.each { |error| puts error.message }
     end
