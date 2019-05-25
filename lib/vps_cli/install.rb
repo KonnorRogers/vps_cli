@@ -22,7 +22,7 @@ module VpsCli
       prep
       packages
       other_tools
-      neovim_pip
+      neovim_support
       omz_full_install
       Setup.full
       install_tmux_plugin_manager_and_plugins
@@ -74,9 +74,11 @@ module VpsCli
       end
     end
 
-    def self.neovim_pip
+    def self.neovim_support
       Rake.sh('sudo -H pip2 install neovim --system')
       Rake.sh('sudo -H pip3 install neovim --system')
+      Rake.sh('pip3 install --user pynvim')
+      Rake.sh('pip3 install --user --upgrade pynvim')
       Rake.sh(%(yes "\n" | sudo npm install -g neovim))
     end
 
