@@ -15,7 +15,7 @@ module VpsCli
 
     GEMS = %w[colorls neovim rake pry
               rubocop gem-ctags rails yard
-              thor bundler].freeze
+              thor bundler solargraph].freeze
 
     UBUNTU = LANGUAGES.dup.concat(TOOLS).concat(ADDED_REPOS)
   end

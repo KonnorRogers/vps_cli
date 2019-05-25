@@ -13,8 +13,8 @@ module VpsCli
 
       begin
         all_install
-      rescue RuntimeError => exception
-        VpsCli.errors << exception
+      rescue RuntimeError => e
+        VpsCli.errors << e
       end
     end
 
@@ -132,6 +132,7 @@ module VpsCli
 
     def self.install_gems
       Packages::GEMS.each { |g| Rake.sh("gem install #{g}") }
+      Rake.sh('yard gems')
     end
   end
 end
