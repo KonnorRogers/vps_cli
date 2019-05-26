@@ -144,15 +144,15 @@ module VpsCli
     # @option opts [File] :yaml_file (nil) the file to decrypt values with.
     #
     def self.post_github_ssh_key(config = VpsCli.configuration)
+      return puts no_credentials_found unless File.exist?(config.credentials)
       uri = URI('https://api.github.com/user/keys')
 
-      api_token = proc do |yaml, path|
-        decrypt(yaml_file: yaml, path: path)
-      end
+      api_token = proc { |yaml, path| decrypt(yaml_file: yaml, path: path) }
 
+      # only create the token if the credentials file exists
       api_path = dig_for_path(:github, :api_token)
-
       token = api_token.call(config.credentials, api_path)
+
       ssh_file = File.join(Dir.home, '.ssh', 'id_rsa.pub')
       title = get_title
 
@@ -171,6 +171,11 @@ module VpsCli
       puts "\n"
       puts 'please enter a title for your ssh key'
       $stdin.gets.chomp
+    end
+
+    def self.no_credentials_found
+      puts "No credentials file found. Please check that your .vps_cli contains
+      a valid .credentials file path"
     end
   end
 end

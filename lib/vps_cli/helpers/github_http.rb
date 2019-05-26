@@ -93,12 +93,11 @@ module VpsCli
     def ssh_key_exist?(json_string:)
       # just in case your ssh key has a comment in it
       # keys pulled from github will not have comments
-      p @ssh_key + "ssh_key"
-      if @ssh_key.include?('==')
-        ssh_key = @ssh_key.split('==')[0].concat('==')
-      else
-        ssh_key = @ssh_key
-      end
+      ssh_key = if @ssh_key.include?('==')
+                  @ssh_key.split('==')[0].concat('==')
+                else
+                  @ssh_key
+                end
 
       JSON.parse(json_string).any? do |data|
         p data
