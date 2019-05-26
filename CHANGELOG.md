@@ -5,6 +5,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.13] - 05-26-2019
+
+### Fixed
+- Finally seem to have fixed issues related to npm race condition and dependency issues
+- Fixed silversearch-ag to silversearcher-ag
+
 ## [0.1.12] - 05-26-2019
 
 ### Fixed
