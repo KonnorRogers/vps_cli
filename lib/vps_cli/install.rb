@@ -5,6 +5,9 @@ module VpsCli
   OMZ_PLUGINS = File.join(OMZ_DIR, 'custom', 'plugins')
   # Installes the required packages
   class Install
+    # Runs the #all_install method, simply a wrapper to catch errors
+    #   and check if the user is running linux
+    # @see all_install
     def self.full
       unless OS.linux?
         puts 'You are not running on linux. No packages installed.'
@@ -18,24 +21,39 @@ module VpsCli
       end
     end
 
+    # Runs through multiple methods listed below
+    # @see #prep
+    # @see #packages
+    # @see #other_tools
+    # @see #neovim_support
+    # @see #omz_full_install
+    # @see Setup#full
+    # @see #install_tmux_plugin_manager_and_plugins
+    # @see #plug_install_vim_neovim
+    # @see #install_gems
+    # @see add_language_servers
     def self.all_install
       prep
       packages
       other_tools
-      neovim_pip
+      neovim_support
       omz_full_install
       Setup.full
       install_tmux_plugin_manager_and_plugins
       plug_install_vim_neovim
       install_gems
+      add_language_servers
     end
 
+    # simply runs apt update, upgrade, and dist-upgrade
     def self.prep
       Rake.sh('sudo apt-get update')
       Rake.sh('sudo apt-get upgrade -y')
       Rake.sh('sudo apt-get dist-upgrade -y')
     end
 
+    # Runs through items found in Packages::UBUNTU
+    # @see Packages::UBUNTU
     def self.packages
       Packages::UBUNTU.each do |item|
         Rake.sh("sudo apt-get install -y #{item}")
@@ -44,6 +62,8 @@ module VpsCli
       end
     end
 
+    # installs various other tools and fixes an issue with npm / nodejs
+    # installs heroku, ngrok, and adds docker groups
     def self.other_tools
       # update npm, there are some issues with ubuntu 18.10 removing npm
       # and then being unable to update it
@@ -66,18 +86,21 @@ module VpsCli
       # add docker
       username = Dir.home.split('/')[2]
       begin
-        Rake.sh('groupadd docker')
-        Rake.sh("usermod -aG docker #{username}")
+        Rake.sh('sudo groupadd docker')
+        Rake.sh("sudo usermod -aG docker #{username}")
       rescue RuntimeError
         puts 'docker group already exists.'
         puts 'moving on...'
       end
     end
 
-
-    def self.neovim_pip
+    # adds neovim support via pip3
+    # Also adds neovim via npm for js support
+    def self.neovim_support
       Rake.sh('sudo -H pip2 install neovim --system')
       Rake.sh('sudo -H pip3 install neovim --system')
+      Rake.sh('pip3 install --user pynvim')
+      Rake.sh('pip3 install --user --upgrade pynvim')
       Rake.sh(%(yes "\n" | sudo npm install -g neovim))
     end
 
@@ -145,6 +168,24 @@ module VpsCli
       Packages::GEMS.each { |g| Rake.sh("gem install #{g}") }
       # documents all gems via yard
       Rake.sh('yard gems')
+    end
+
+    # Adds the following language servers
+    # bash-language-server
+    # vscode-html-languageserver-bin
+    # vscode-css-languageserver-bin
+    # javascript-typescript-langserver
+    # does not add solargraph for ruby, installed via gems
+    def self.add_language_servers
+      npm_install = 'sudo npm install --global'
+      # bash
+      Rake.sh("#{npm_install} bash-language-server --unsafe-perm")
+      # html
+      Rake.sh("#{npm_install} vscode-html-languageserver-bin")
+      # css
+      Rake.sh("#{npm_install} vscode-css-languageserver-bin")
+      # js
+      Rake.sh("#{npm_install} javascript-typescript-langserver")
     end
   end
 end
