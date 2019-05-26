@@ -52,36 +52,18 @@ module VpsCli
     #   The local dir is where files are copied to
     attr_writer :configuration
 
-    # Base set of options, will set the defaults for the various options
-    # Take a hash due to people being able to set their own directories
-    # @param [Hash] Takes the hash to modify
-    # @return [Hash] Returns the options hash with the various options
-    # Possible options:
-    #   :backup_dir
-    #   :local_dir
-    #   :dotfiles_dir
-    #   :misc_files_dir
-    #   :local_sshd_config
-    #   :verbose
-    #   :testing
-    # def create_options(opts = {})
-    #   opts[:backup_dir] ||= BACKUP_FILES_DIR
-    #   opts[:local_dir] ||= Dir.home
-    #   opts[:dotfiles_dir] ||= DOTFILES_DIR
-    #   opts[:misc_files_dir] ||= MISC_FILES_DIR
-    #   opts[:local_sshd_config] ||= '/etc/ssh/sshd_config'
-
-    #   opts[:verbose] = false if opts[:verbose].nil?
-    #   opts[:interactive] = true if opts[:interactive].nil?
-
-    #   opts
-    # end
-
-    def full_install(options = {})
+    def full_install
       VpsCli::Setup.full
       VpsCli::Install.full
-      VpsCli::Access.provide_credentials(options)
-      VpsCli::Copy.all(options)
+      VpsCli::Access.provide_credentials
+      VpsCli::Copy.all
+    end
+
+    def print_errors
+      VpsCli.errors.each do |error|
+        puts error.message if error.responds_to?(:message)
+        puts error unless error.responds_to?(:message)
+      end
     end
   end
 

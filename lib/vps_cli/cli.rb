@@ -25,7 +25,7 @@ module VpsCli
 
       Access.provide_credentials
 
-      VpsCli.errors.each { |error| puts error.message }
+      print_errors
     end
 
     desc 'init [-c (File)]', 'Creates a default vps_cli configuration file in the home directory'
@@ -53,22 +53,25 @@ module VpsCli
       Pull.all
     end
 
-    desc 'install [OPTIONS]', 'installs based on the flag provided'
-    def install
-      msg = puts 'Only VpsCli::Install#all_install has been implemented'
-      return msg unless options[:all]
+    desc 'update_all', 'updates all packages'
+    def update_all
+      Install.prep
 
+    end
+
+    desc 'install_all', 'installs all packages'
+    def install_all
       Install.all_install
 
       return if VpsCli.errors.empty?
 
-      VpsCli.errors.each do |error|
-        if error.responds_to?(:message)
-          puts error.message
-        else
-          puts error
-        end
-      end
+      print_errors
+    end
+
+    desc 'login', 'pushes keys from your ~/.credentials.yaml file'
+    def login
+      VpsCli.load_configuration(options[:config])
+      VpsCli.provide_credentials
     end
 
     desc 'git_pull', 'Automatically pulls in changes in your config_files repo'

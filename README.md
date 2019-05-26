@@ -6,6 +6,10 @@ This gem is currently unfinished and purely for my own personal use.
 This project of pulling and pushing dotfiles as well as performing installations
 etc has taken many iterations and this is its 3rd iteration
 
+## Prerequisites
+
+In order for the test suite to pass, you must have SOPS & GPG installed.
+
 ## Installation
 
 Add this line to your application's Gemfile:

@@ -152,14 +152,6 @@ module VpsCli
         Rake.mkdir_p(install_path)
         Rake.sh("git clone https://github.com/tmux-plugins/tpm #{install_path}")
       end
-      # start a server but don't attach to it
-      Rake.sh('tmux start-server')
-      # create a new session but don't attach to it either
-      Rake.sh('tmux new-session -d')
-      # install the plugins
-      Rake.sh('~/.tmux/plugins/tpm/scripts/install_plugins.sh')
-      # killing the server is not required, I guess
-      Rake.sh('tmux kill-server')
     end
 
     # Installs all gems located in Packages::GEMS
