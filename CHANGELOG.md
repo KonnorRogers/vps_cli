@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added libssl1.0-dev to packages due to it being a node-gyp dependency
+- Added silversearcher-ag as well
 
 ### Additional Notes
 - Really feeling the pain of manual testing of packages on different computers / OS'es
