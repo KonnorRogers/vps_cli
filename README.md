@@ -1,6 +1,6 @@
 # VpsCli
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/vps_cli`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is merely a gem so I do not have dotfiles and vps-cli concerns mixed
 
 This gem is currently unfinished and purely for my own personal use.
 This project of pulling and pushing dotfiles as well as performing installations
@@ -11,7 +11,7 @@ etc has taken many iterations and this is its 3rd iteration
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'vps_cli', git: 'https://github.com/ParamagicDev/vps_cli'
+gem 'vps_cli'
 ```
 
 And then execute:
@@ -53,6 +53,10 @@ vps-cli git_pull
 vps-cli git_push
 # pushes changes in your config_files directory
 
+vps-cli fresh_install
+# used for my own personal purposes, please dont run it if you havent
+# glossed over the contents
+
 vps-cli
 # will list all available commands
 ```
@@ -65,7 +69,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/vps_cli.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ParamagicDev/vps_cli.
 
 ## License
 
