@@ -11,6 +11,12 @@ module VpsCli
     # this is available as a flag for all methods
     class_option :config, aliases: :c, default: File.join(Dir.home, '.vps_cli')
 
+    desc 'version', 'prints the vps-cli version information'
+    def version
+      puts "vps-cli version #{VpsCli::VERSION}"
+    end
+    map %w[-v --version] => :version
+
     desc 'fresh_install', 'accepts no arguments, my own personal command'
     def fresh_install
       VpsCli.load_configuration(options[:config])
@@ -21,7 +27,6 @@ module VpsCli
 
       VpsCli.errors.each { |error| puts error.message }
     end
-
 
     desc 'init [-c (File)]', 'Creates a default vps_cli configuration file in the home directory'
     def init(file = options[:config])
@@ -73,8 +78,7 @@ module VpsCli
 
     desc 'git_push [message]', 'Automatically pushes changes of your config_files'
     def git_push(message = nil)
-
-      message ||= "auto push files"
+      message ||= 'auto push files'
 
       swap_dir do
         Rake.sh('git add -A')
