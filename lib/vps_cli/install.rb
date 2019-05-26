@@ -39,6 +39,7 @@ module VpsCli
     # @see #plug_install_vim_neovim
     # @see #install_gems
     # @see add_language_servers
+    # @see npm_workaround
     def self.install_non_apt_packages
       other_tools
       neovim_support
@@ -70,13 +71,7 @@ module VpsCli
     # installs various other tools and fixes an issue with npm / nodejs
     # installs heroku, ngrok, and adds docker groups
     def self.other_tools
-      # update npm, there are some issues with ubuntu 18.10 removing npm
-      # and then being unable to update it
-      # for some reason npm and ubuntu dont play well
-      Rake.sh('sudo apt-get install nodejs -y')
-      Rake.sh('sudo apt-get install npm -y')
-      Rake.sh('sudo npm install -g npm')
-
+      npm_workaround
       # add heroku
       Rake.sh('sudo snap install heroku --classic')
       # add tmux plugin manager
@@ -97,6 +92,18 @@ module VpsCli
         puts 'docker group already exists.'
         puts 'moving on...'
       end
+    end
+
+    # Lots of issues when using npm via apt-get, this seems to fix dependency issues
+    def self.npm_workaround
+      # update npm, there are some issues with ubuntu 18.10 removing npm
+      # and then being unable to update it
+      # for some reason npm and ubuntu dont play well
+      Rake.sh('sudo apt-get install libssl1.0-dev -y')
+      Rake.sh('sudo apt-get install nodejs-dev -y')
+      Rake.sh('sudo apt-get install node-gyp -y')
+      Rake.sh('sudo apt-get install npm -y')
+      Rake.sh('sudo npm install -g npm')
     end
 
     # adds neovim support via pip3
