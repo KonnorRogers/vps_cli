@@ -9,9 +9,10 @@ module VpsCli
     TOOLS = %w[curl tmux git vim zsh sqlite3 ctags rdoc libsqlite3-dev
                openssh-client openssh-server dconf-cli gnome-terminal
                postgresql pry rubygems fail2ban node-gyp
-               libcurl4-openssl-dev libxml2-dev].freeze
+               neovim asciinema docker mosh yarn
+               silversearch-ag].freeze
 
-    ADDED_REPOS = %w[neovim asciinema docker mosh yarn].freeze
+    LIBS = %w[libssl1.0-dev libcurl4-openssl-dev libxml2-dev].freeze
 
     GEMS = %w[colorls neovim rake pry
               rubocop gem-ctags rails yard
