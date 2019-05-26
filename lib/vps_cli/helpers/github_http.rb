@@ -100,8 +100,6 @@ module VpsCli
                 end
 
       JSON.parse(json_string).any? do |data|
-        p data
-        p ssh_key
         data['key'] == ssh_key
       end
     end

@@ -5,7 +5,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.9.0] - 05-26-2019
+## [0.1.10] - 05-26-2019
+
+### Fixed
+- Fixed an issue with printing errors
+- Fixed an issue with printing github public keys to command line
+
+## [0.1.9] - 05-26-2019
 
 ### Added
 - This changelog
