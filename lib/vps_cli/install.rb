@@ -74,18 +74,25 @@ module VpsCli
       end
     end
 
+
     def self.neovim_pip
       Rake.sh('sudo -H pip2 install neovim --system')
       Rake.sh('sudo -H pip3 install neovim --system')
       Rake.sh(%(yes "\n" | sudo npm install -g neovim))
     end
 
+    # Runs the following commands, simply a wrapper
+    # @see #install_oh_my_zsh
+    # @see #install_syntax_highlighting
+    # @see #install_autosuggestions
     def self.omz_full_install
       install_oh_my_zsh
       install_syntax_highlighting
       install_autosuggestions
     end
 
+    # Install Oh my zsh
+    # @see https://github.com/zsh-users/zsh-autosuggestions
     def self.install_oh_my_zsh
       return if Dir.exist?(OMZ_DIR)
 
@@ -100,6 +107,8 @@ module VpsCli
       Rake.sh("git clone https://github.com/zsh-users/zsh-autosuggestions #{auto}")
     end
 
+    # Install Oh my zsh syntax highlighting
+    # @see https://github.com/zsh-users/zsh-syntax-highlighting.git
     def self.install_syntax_highlighting
       syntax = File.join(OMZ_PLUGINS, 'zsh-syntax-highlighting')
       return if File.exist?(syntax)
@@ -107,18 +116,18 @@ module VpsCli
       Rake.sh("git clone https://github.com/zsh-users/zsh-syntax-highlighting.git #{syntax}")
     end
 
+    # Runs PlugInstall for neovim
     def self.plug_install_vim_neovim
-      # Rake.sh(%(vim +'PlugInstall --sync' +qa))
-      # Rake.sh(%(vim +'PlugUpdate --sync' +qa))
       Rake.sh(%(nvim +'PlugInstall --sync' +qa))
       Rake.sh(%(nvim +'PlugUpdate --sync' +qa))
     end
 
+    # will install tmux plugin manager
     def self.install_tmux_plugin_manager_and_plugins
       install_path = File.join(Dir.home, '.tmux', 'plugins', 'tpm')
       unless File.exist?(install_path)
         Rake.mkdir_p(install_path)
-        Rake.sh("git clone https://github.com/tmux-plugins/tpm #{instal_path}")
+        Rake.sh("git clone https://github.com/tmux-plugins/tpm #{install_path}")
       end
       # start a server but don't attach to it
       Rake.sh('tmux start-server')
@@ -130,8 +139,11 @@ module VpsCli
       Rake.sh('tmux kill-server')
     end
 
+    # Installs all gems located in Packages::GEMS
+    # Also will runs 'yard gems' to document all gems via yard
     def self.install_gems
       Packages::GEMS.each { |g| Rake.sh("gem install #{g}") }
+      # documents all gems via yard
       Rake.sh('yard gems')
     end
   end
