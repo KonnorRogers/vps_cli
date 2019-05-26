@@ -7,7 +7,7 @@ class TestPackages < Minitest::Test
     packages = [
       VpsCli::Packages::LANGUAGES,
       VpsCli::Packages::TOOLS,
-      VpsCli::Packages::ADDED_REPOS,
+      VpsCli::Packages::LIBS,
       VpsCli::Packages::GEMS
     ]
 

@@ -18,6 +18,6 @@ module VpsCli
               rubocop gem-ctags rails yard
               thor bundler solargraph].freeze
 
-    UBUNTU = LANGUAGES.dup.concat(TOOLS).concat(ADDED_REPOS)
+    UBUNTU = LANGUAGES.dup.concat(TOOLS).concat(LIBS)
   end
 end

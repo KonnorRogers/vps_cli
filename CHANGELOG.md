@@ -5,6 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.12] - 05-26-2019
+
+### Fixed
+- Renamed ADDED_REPOS to LIBS and never fixed it
+
 ## [0.1.11] - 05-26-2019
 
 ### Fixed
