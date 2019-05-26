@@ -24,6 +24,13 @@ module VpsCli
     # Runs through multiple methods listed below
     # @see #prep
     # @see #packages
+    def self.all_install
+      prep
+      packages
+      install_non_apt_packages
+    end
+
+    # runs #all_install without the sudo apt-get packages
     # @see #other_tools
     # @see #neovim_support
     # @see #omz_full_install
@@ -32,9 +39,7 @@ module VpsCli
     # @see #plug_install_vim_neovim
     # @see #install_gems
     # @see add_language_servers
-    def self.all_install
-      prep
-      packages
+    def self.install_non_apt_packages
       other_tools
       neovim_support
       omz_full_install

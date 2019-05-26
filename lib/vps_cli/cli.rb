@@ -55,8 +55,9 @@ module VpsCli
 
     desc 'update_all', 'updates all packages'
     def update_all
+      VpsCli.load_configuration(options[:config])
       Install.prep
-
+      Install.install_non_apt_packages
     end
 
     desc 'install_all', 'installs all packages'

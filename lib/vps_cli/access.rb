@@ -23,13 +23,13 @@ module VpsCli
     def self.provide_credentials(config = VpsCli.configuration)
       if File.exist?(config.credentials)
         file_login(yaml_file: config.credentials, netrc_file: config.netrc)
+        post_github_ssh_key(config)
       else
         command_line_login
       end
 
       # originally accepts an opts arguemnt
       generate_ssh_key
-      post_github_ssh_key(config)
     end
 
     # Provides all login credentials via a SOPS encrypted yaml file
