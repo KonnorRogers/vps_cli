@@ -5,7 +5,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.9.0] - 05-26-2019
+## [0.1.11] - 05-26-2019
+
+### Fixed
+- Fixed an issue with node-gyp installs failing on Lubuntu 18.10
+- Fixed an issue where npm install was not being install globally
+
+### Added
+- Added libssl1.0-dev to packages due to it being a node-gyp dependency
+
+### Additional Notes
+- Really feeling the pain of manual testing of packages on different computers / OS'es
+- I understand why Docker is so great now
+
+## [0.1.10] - 05-26-2019
+
+### Fixed
+- Fixed an issue with printing errors
+- Fixed an issue with printing github public keys to command line
+
+## [0.1.9] - 05-26-2019
 
 ### Added
 - This changelog

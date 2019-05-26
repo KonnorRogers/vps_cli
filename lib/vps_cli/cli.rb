@@ -25,7 +25,7 @@ module VpsCli
 
       Access.provide_credentials
 
-      print_errors
+      VpsCli.print_errors
     end
 
     desc 'init [-c (File)]', 'Creates a default vps_cli configuration file in the home directory'
@@ -66,7 +66,7 @@ module VpsCli
 
       return if VpsCli.errors.empty?
 
-      print_errors
+      VpsCli.print_errors
     end
 
     desc 'login', 'pushes keys from your ~/.credentials.yaml file'
