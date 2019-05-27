@@ -5,6 +5,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.16] - 05-27-2019
+
+### Fixed
+- Lots of exception related stuff so if youre sudo apt-install fails, the whole
+  process isnt waste
+
 ## [0.1.13] - 05-26-2019
 
 ### Fixed
