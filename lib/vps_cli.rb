@@ -61,8 +61,8 @@ module VpsCli
 
     def print_errors
       VpsCli.errors.each do |error|
-        puts error.message if error.responds_to?(:message)
-        puts error unless error.responds_to?(:message)
+        puts error.message if error.respond_to?(:message)
+        puts error unless error.respond_to?(:message)
       end
     end
   end
