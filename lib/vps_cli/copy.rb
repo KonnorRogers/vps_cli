@@ -132,7 +132,7 @@ module VpsCli
       Rake.sh(dconf_load) if overwrite.call(gnome_path)
     rescue RuntimeError => error
       puts 'something went wrong with gnome, continuing on' if config.verbose
-      VpsCli.errors << error
+      VpsCli.errors << error.exception("Unable to copy gnome settings")
     end
 
     def self.root?
