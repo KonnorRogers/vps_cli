@@ -63,9 +63,11 @@ module VpsCli
     def self.packages
       Packages::UBUNTU.each do |item|
         Rake.sh("sudo apt-get install -y #{item}")
-
-        puts 'Successfully completed apt-get install on all packages.'
+      rescue StandardError => e
+        VpsCli.errors << e.msg("Unable to install #{item}")
       end
+
+      puts 'Successfully completed apt-get install on all packages.'
     end
 
     # installs various other tools and fixes an issue with npm / nodejs
