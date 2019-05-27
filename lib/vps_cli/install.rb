@@ -101,10 +101,15 @@ module VpsCli
       # update npm, there are some issues with ubuntu 18.10 removing npm
       # and then being unable to update it
       # for some reason npm and ubuntu dont play well
-      Rake.sh('sudo apt-get install libssl1.0-dev -y')
-      Rake.sh('sudo apt-get install nodejs-dev -y')
-      Rake.sh('sudo apt-get install node-gyp -y')
-      Rake.sh('sudo apt-get install npm -y')
+      pkgs = %w[libssl1.0-dev nodejs-dev node-gyp npm]
+
+
+      pkgs.each do |pkg|
+        Rake.sh("sudo apt-get install #{pkg} -y")
+      rescue StandardError => e
+        VpsCli.errors << e.msg("unable to install #{pkg}")
+      end
+
       Rake.sh('sudo npm install -g npm')
     end
 
