@@ -14,11 +14,7 @@ module VpsCli
         return
       end
 
-      begin
-        all_install
-      rescue RuntimeError => e
-        VpsCli.errors << e
-      end
+      all_install
     end
 
     # Runs through multiple methods listed below
@@ -63,8 +59,8 @@ module VpsCli
     def self.packages
       Packages::UBUNTU.each do |item|
         Rake.sh("sudo apt-get install -y #{item}")
-      rescue StandardError => e
-        VpsCli.errors << e.msg("Unable to install #{item}")
+      rescue StandardError
+        VpsCli.errors << StandardError.new("Unable to install #{item}")
       end
 
       puts 'Successfully completed apt-get install on all packages.'
@@ -106,8 +102,8 @@ module VpsCli
 
       pkgs.each do |pkg|
         Rake.sh("sudo apt-get install #{pkg} -y")
-      rescue StandardError => e
-        VpsCli.errors << e.msg("unable to install #{pkg}")
+      rescue StandardError
+        VpsCli.errors << StandardError.new("unable to install #{pkg}")
       end
 
       Rake.sh('sudo npm install -g npm')
