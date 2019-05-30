@@ -193,6 +193,8 @@ module VpsCli
       Rake.sh("#{npm_install} vscode-css-languageserver-bin")
       # js
       Rake.sh("#{npm_install} javascript-typescript-langserver")
+      # Dockerfile
+      Rake.sh("#{npm_install} dockerfile-language-server-nodejs")
     end
   end
 end
