@@ -57,6 +57,7 @@ module VpsCli
     # Runs through items found in Packages::UBUNTU
     # @see Packages::UBUNTU
     def self.packages
+      begin
       Packages::UBUNTU.each do |item|
         Rake.sh("sudo apt-get install -y #{item}")
       rescue StandardError
@@ -98,7 +99,6 @@ module VpsCli
       # and then being unable to update it
       # for some reason npm and ubuntu dont play well
       pkgs = %w[libssl1.0-dev nodejs-dev node-gyp npm]
-
 
       pkgs.each do |pkg|
         Rake.sh("sudo apt-get install #{pkg} -y")
