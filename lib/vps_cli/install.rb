@@ -82,6 +82,10 @@ module VpsCli
       # add ngrok
       Rake.sh('sudo npm install --unsafe-perm -g ngrok')
 
+    end
+
+    # installs docker-machine as well as adding docker to sudo group
+    def self.docker
       # add docker
       username = Dir.home.split('/')[2]
       begin
@@ -90,6 +94,15 @@ module VpsCli
       rescue RuntimeError
         puts 'docker group already exists.'
         puts 'moving on...'
+      end
+
+      docker-machine = "base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+  curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+  sudo install /tmp/docker-machine /usr/local/bin/docker-machine"
+      begin
+        Rake.sh(docker-machine)
+      rescue StandardError => e
+        VpsCli.errors << e.exception("Unable to install docker-machine")
       end
     end
 
