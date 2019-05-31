@@ -10,7 +10,7 @@ module VpsCli
                openssh-client openssh-server dconf-cli gnome-terminal
                postgresql pry rubygems fail2ban
                neovim asciinema docker mosh yarn
-               silversearcher-ag].freeze
+               silversearcher-ag virtualbox].freeze
 
     LIBS = %w[libssl1.0-dev libcurl4-openssl-dev libxml2-dev].freeze
 
