@@ -5,6 +5,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.17] - 05-31-2019
+
+### Updated
+- Updated the way nodejs / npm is installed
+
+### Added
+- Added docker-machine to the installation of docker
+
 ## [0.1.16] - 05-27-2019
 
 ### Fixed
