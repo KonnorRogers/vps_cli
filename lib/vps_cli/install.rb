@@ -5,7 +5,7 @@ module VpsCli
   OMZ_PLUGINS = File.join(OMZ_DIR, 'custom', 'plugins')
   # Installes the required packages
   class Install
-    # Runs the #all_install method, simply a wrapper to catch errors
+    # Run the #all_install method, simply a wrapper to catch errors
     #   and check if the user is running linux
     # @see all_install
     def self.full
@@ -34,8 +34,8 @@ module VpsCli
     # @see #install_tmux_plugin_manager_and_plugins
     # @see #plug_install_vim_neovim
     # @see #install_gems
-    # @see add_language_servers
-    # @see npm_workaround
+    # @see #add_language_servers
+    # @see #node_js
     def self.install_non_apt_packages
       other_tools
       neovim_support
@@ -44,6 +44,7 @@ module VpsCli
       install_tmux_plugin_manager_and_plugins
       plug_install_vim_neovim
       install_gems
+      node_js
       add_language_servers
     end
 
@@ -57,7 +58,6 @@ module VpsCli
     # Runs through items found in Packages::UBUNTU
     # @see Packages::UBUNTU
     def self.packages
-      begin
       Packages::UBUNTU.each do |item|
         Rake.sh("sudo apt-get install -y #{item}")
       rescue StandardError
@@ -70,7 +70,6 @@ module VpsCli
     # installs various other tools and fixes an issue with npm / nodejs
     # installs heroku, ngrok, and adds docker groups
     def self.other_tools
-      npm_workaround
       # add heroku
       Rake.sh('sudo snap install heroku --classic')
       # add tmux plugin manager
@@ -81,7 +80,6 @@ module VpsCli
       end
       # add ngrok
       Rake.sh('sudo npm install --unsafe-perm -g ngrok')
-
     end
 
     # installs docker-machine as well as adding docker to sudo group
@@ -96,28 +94,20 @@ module VpsCli
         puts 'moving on...'
       end
 
-      docker-machine = "base=https://github.com/docker/machine/releases/download/v0.16.0 &&
-  curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+      docker_machine = "base=https://github.com/docker/machine/releases/download/v0.16.0 && \
+  curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine && \
   sudo install /tmp/docker-machine /usr/local/bin/docker-machine"
       begin
-        Rake.sh(docker-machine)
+        Rake.sh(docker_machine)
       rescue StandardError => e
-        VpsCli.errors << e.exception("Unable to install docker-machine")
+        VpsCli.errors << e.exception('Unable to install docker-machine')
       end
     end
 
     # Lots of issues when using npm via apt-get, this seems to fix dependency issues
-    def self.npm_workaround
-      # update npm, there are some issues with ubuntu 18.10 removing npm
-      # and then being unable to update it
-      # for some reason npm and ubuntu dont play well
-      pkgs = %w[libssl1.0-dev nodejs-dev node-gyp npm]
-
-      pkgs.each do |pkg|
-        Rake.sh("sudo apt-get install #{pkg} -y")
-      rescue StandardError
-        VpsCli.errors << StandardError.new("unable to install #{pkg}")
-      end
+    def self.node_js
+      Rake.sh('curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -')
+      Rake.sh('sudo apt-get install -y nodejs')
 
       Rake.sh('sudo npm install -g npm')
     end
@@ -176,10 +166,10 @@ module VpsCli
     # will install tmux plugin manager
     def self.install_tmux_plugin_manager_and_plugins
       install_path = File.join(Dir.home, '.tmux', 'plugins', 'tpm')
-      unless File.exist?(install_path)
-        Rake.mkdir_p(install_path)
-        Rake.sh("git clone https://github.com/tmux-plugins/tpm #{install_path}")
-      end
+      return if File.exist?(install_path)
+
+      Rake.mkdir_p(install_path)
+      Rake.sh("git clone https://github.com/tmux-plugins/tpm #{install_path}")
     end
 
     # Installs all gems located in Packages::GEMS
