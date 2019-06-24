@@ -94,6 +94,8 @@ module VpsCli
         return
       end
 
+      return unless File.identical?(misc_sshd_path, config.local_sshd_config)
+
       Rake.sh("sudo cp #{misc_sshd_path} #{config.local_sshd_config}")
     end
 
