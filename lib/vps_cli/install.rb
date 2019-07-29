@@ -46,6 +46,7 @@ module VpsCli
       install_gems
       node_js
       add_language_servers
+      nvm
     end
 
     # simply runs apt update, upgrade, and dist-upgrade
@@ -198,6 +199,10 @@ module VpsCli
       Rake.sh("#{npm_install} javascript-typescript-langserver")
       # Dockerfile
       Rake.sh("#{npm_install} dockerfile-language-server-nodejs")
+    end
+
+    def self.nvm
+      Rake.sh("curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash")
     end
   end
 end
