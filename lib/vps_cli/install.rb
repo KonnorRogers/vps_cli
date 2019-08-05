@@ -46,6 +46,8 @@ module VpsCli
       install_gems
       node_js
       add_language_servers
+      nvm
+      powerlevel10k
     end
 
     # simply runs apt update, upgrade, and dist-upgrade
@@ -202,6 +204,10 @@ module VpsCli
 
     def self.powerlevel10k
       Rake.sh("git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k")
+    end
+
+    def self.nvm
+      Rake.sh("curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash")
     end
   end
 end
