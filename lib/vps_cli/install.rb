@@ -199,5 +199,9 @@ module VpsCli
       # Dockerfile
       Rake.sh("#{npm_install} dockerfile-language-server-nodejs")
     end
+
+    def self.powerlevel10k
+      Rake.sh("git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k")
+    end
   end
 end
