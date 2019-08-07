@@ -30,6 +30,18 @@ module VpsCli
 
     desc 'init [-c (File)]', 'Creates a default vps_cli configuration file in the home directory'
     def init(file = options[:config])
+      if File.exist?(file)
+        loop do
+          puts "#{file} already exists. Would you like to overwrite it? (Y/N)"
+          input = $stdin.gets.chomp
+
+          # breaks and creates the config
+          break if input.to_sym == :y
+          return if input.to_sym == :n
+
+          # continue the loop otherwise
+        end
+      end
       VpsCli.create_configuration(file)
     end
 
