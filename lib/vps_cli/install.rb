@@ -47,6 +47,7 @@ module VpsCli
       node_js
       add_language_servers
       nvm
+      powerlevel10k
     end
 
     # simply runs apt update, upgrade, and dist-upgrade
@@ -199,6 +200,10 @@ module VpsCli
       Rake.sh("#{npm_install} javascript-typescript-langserver")
       # Dockerfile
       Rake.sh("#{npm_install} dockerfile-language-server-nodejs")
+    end
+
+    def self.powerlevel10k
+      Rake.sh("git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k")
     end
 
     def self.nvm
