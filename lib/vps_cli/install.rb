@@ -37,6 +37,7 @@ module VpsCli
     # @see #add_language_servers
     # @see #node_js
     def self.install_non_apt_packages
+      nvm
       other_tools
       neovim_support
       omz_full_install
@@ -46,7 +47,6 @@ module VpsCli
       install_gems
       node_js
       add_language_servers
-      nvm
       powerlevel10k
     end
 
@@ -208,6 +208,8 @@ module VpsCli
 
     def self.nvm
       Rake.sh("curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash")
+      # Set the version
+      Rake.sh("nvm install 11.15.0 && nvm use 11.15.0")
     end
   end
 end
