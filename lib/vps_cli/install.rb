@@ -48,6 +48,7 @@ module VpsCli
       node_js
       add_language_servers
       powerlevel10k
+      eslint
     end
 
     # simply runs apt update, upgrade, and dist-upgrade
@@ -189,7 +190,7 @@ module VpsCli
     # javascript-typescript-langserver
     # does not add solargraph for ruby, installed via gems
     def self.add_language_servers
-      npm_install = 'sudo npm install --global'
+      npm_install = 'npm install --global'
       # bash
       Rake.sh("#{npm_install} bash-language-server --unsafe-perm")
       # html
@@ -204,6 +205,10 @@ module VpsCli
 
     def self.powerlevel10k
       Rake.sh("git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k")
+    end
+
+    def self.eslint
+      Rake.sh("npm install -g eslint")
     end
 
     def self.nvm
