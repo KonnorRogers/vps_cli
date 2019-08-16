@@ -97,9 +97,13 @@ module VpsCli
       message ||= 'auto push files'
 
       swap_dir do
+      begin
         Rake.sh('git add -A')
         Rake.sh("git commit -m \"#{message}\"")
         Rake.sh('git push')
+      rescue
+
+
       end
     end
 

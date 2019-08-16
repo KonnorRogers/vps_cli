@@ -65,6 +65,10 @@ module VpsCli
         puts error unless error.respond_to?(:message)
       end
     end
+
+    def add_error(error: error, message: message)
+      VpsCli.errors <<
+    end
   end
 
   # Creates an empty array of errors to push to

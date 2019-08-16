@@ -6,6 +6,7 @@ require 'json'
 require 'net/http'
 
 # Helper methods to be used within Access to help reduce the file size
+# This is meant for reading files encrypted with sops
 module AccessHelper
   # retrieves the values of .netrc for heroku and creates a writable string
   # @return [String] Returns the string to be written to netrc
