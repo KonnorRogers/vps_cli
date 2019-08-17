@@ -8,8 +8,10 @@ module VpsCli
   # Integrates Thor
   # @see http://whatisthor.com/
   class Cli < Thor
+    DEFAULT_DIR = File.join(Dir.home, '.vps-cli')
     # this is available as a flag for all methods
-    class_option :config, aliases: :c, default: File.join(Dir.home, '.vps_cli')
+    class_option :config, aliases: :c, default: File.join(DEFAULT_DIR, 'config.rb')
+    class_option :install, aliases: :i, default: File.join(DEFAULT_DIR, 'install.yaml')
 
     desc 'version', 'prints the vps-cli version information'
     def version
@@ -21,15 +23,15 @@ module VpsCli
     def fresh_install
       VpsCli.load_configuration(options[:config])
       Copy.all
-      Install.all_install
+      Install.all(options[:install])
 
       Access.provide_credentials
 
       VpsCli.print_errors
     end
 
-    desc 'init [-c (File)]', 'Creates a default vps_cli configuration file in the home directory'
-    def init(file = options[:config])
+    desc 'init [-c (config-file)] [-i (install-file)]', 'Creates a default vps_cli configuration file in the home directory'
+    def init(c_file = options[:config], i_file = options[:install])
       if File.exist?(file)
         loop do
           puts "#{file} already exists. Would you like to overwrite it? (Y/N)"
@@ -42,17 +44,18 @@ module VpsCli
           # continue the loop otherwise
         end
       end
-      VpsCli.create_configuration(file)
+      VpsCli.create_configuration(c_file)
+      VpsCli.create_default_install_file(i_file)
     end
 
     desc 'install_gems', 'runs gem install on all gems in packages.rb'
     def install_gems
-      Packages::GEMS.each do |g|
-        Rake.sh("gem install #{g}")
-      end
+      # Packages::GEMS.each do |g|
+      #   Rake.sh("gem install #{g}")
+      # end
     end
 
-    desc 'copy [OPTIONS]', 'Copies files from <vps_cli/config_files>'
+    desc 'copy [OPTIONS]', 'Copies files from the files set in the config.rb file'
     def copy
       VpsCli.load_configuration(options[:config])
       Copy.all
@@ -97,13 +100,13 @@ module VpsCli
       message ||= 'auto push files'
 
       swap_dir do
-      begin
-        Rake.sh('git add -A')
-        Rake.sh("git commit -m \"#{message}\"")
-        Rake.sh('git push')
-      rescue
-
-
+        begin
+          Rake.sh('git add -A')
+          Rake.sh("git commit -m \"#{message}\"")
+          Rake.sh('git push')
+        rescue
+          puts "Something went wrong. Manually push by going to #{options[:config]}"
+        end
       end
     end
 

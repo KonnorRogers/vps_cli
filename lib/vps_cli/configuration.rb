@@ -3,6 +3,7 @@
 module VpsCli
   # Used for keeping a consistent config across the entire project
   class Configuration
+    DEFAULT_CONFIG_PATH = File.join(Dir.home, '.vps-cli', 'config.rb')
     # local files
     attr_accessor :local_dir, :backup_dir, :local_sshd_config
     attr_accessor :sshd_backup
@@ -52,11 +53,11 @@ module VpsCli
   end
 
   def self.load_test_configuration
-    test_config = File.join(File.expand_path(__dir__), 'configurations', 'testing_configuration.rb')
+    test_config = File.join(File.expand_path(__dir__), 'examples', 'testing_configuration.rb')
     load_configuration(test_config)
   end
 
-  def self.load_configuration(file = File.join(Dir.home, '.vps_cli'))
+  def self.load_configuration(file = DEFAULT_CONFIG_PATH)
     msg = 'Unable to location a configuration file. The default location is'
     msg += '$HOME/.vps_cli'
     msg += "\nTo create a standard default config, run 'vps-cli init'"
@@ -66,12 +67,12 @@ module VpsCli
     load file
   end
 
-  def self.create_configuration(file = File.join(Dir.home, '.vps_cli'))
+  def self.create_configuration(file = DEFAULT_CONFIG_PATH)
     msg = "Creating a default configuration files @ $HOME/.vps_cli"
     msg += "\nPlease modify any values that are nil"
 
     puts msg
-    default_config = File.join(File.expand_path(__dir__), 'configurations', 'default_configuration.rb')
+    default_config = File.join(File.expand_path(__dir__), 'examples', 'default_configuration.rb')
 
     Rake.cp(default_config, file)
   end

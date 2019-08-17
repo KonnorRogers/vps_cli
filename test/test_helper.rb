@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 
 require 'minitest/autorun'
 require 'vps_cli'
-require 'vps_cli/configurations/testing_configuration.rb'
+require 'vps_cli/examples/testing_configuration.rb'
 
 require 'fileutils'
 require 'logger'

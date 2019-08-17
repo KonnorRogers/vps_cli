@@ -15,25 +15,6 @@ require 'vps_cli/helpers/github_http'
 
 # Used for setting up a ubuntu environment
 module VpsCli
-  # @!group Top Level Constants
-
-  # Project's Root Directory
-  ROOT = File.expand_path(File.expand_path('../', __dir__))
-
-  # Projects config_files directory
-  FILES_DIR = File.join(ROOT, 'config_files')
-
-  # Projects Dotfiles directory
-  DOTFILES_DIR = File.join(FILES_DIR, 'dotfiles')
-
-  # Miscellaneous files like sshd_config
-  MISC_FILES_DIR = File.join(FILES_DIR, 'misc_files')
-
-  # Directory of backup files
-  BACKUP_FILES_DIR = File.join(Dir.home, 'backup_files')
-
-  # @!endgroup
-
   # all following methods will be module wide
   class << self
     # Used for loggings errors
@@ -64,10 +45,6 @@ module VpsCli
         puts error.message if error.respond_to?(:message)
         puts error unless error.respond_to?(:message)
       end
-    end
-
-    def add_error(error: error, message: message)
-      VpsCli.errors <<
     end
   end
 

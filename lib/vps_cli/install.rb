@@ -1,19 +1,39 @@
 # frozen_string_literal: true
+require 'yaml'
 
 module VpsCli
-  OMZ_DIR = File.join(Dir.home, '.oh-my-zsh')
-  OMZ_PLUGINS = File.join(OMZ_DIR, 'custom', 'plugins')
   # Installes the required packages
   class Install
+    OMZ_DIR = File.join(Dir.home, '.oh-my-zsh')
+    OMZ_PLUGINS = File.join(OMZ_DIR, 'custom', 'plugins')
+    DEFAULT_INSTALL_FILE = File.join(__dir__, 'examples', 'default_install.yaml')
+    LOCAL_INSTALL_FILE = File.join(VpsCli.configuration.local_dir, 'install.yaml')
+
+    def self.create_default_yaml_file
+      Rake.cp(DEFAULT_INSTALL_FILE, VpsCli.configuration.local_dir, 'install.yaml')
+    end
+
+    def self.read_yaml_file(file = LOCAL_INSTALL_FILE)
+      YAML.load(file)
+    rescue => e
+      VpsCli.errors << "Unable to load your #{LOCAL_INSTALL_FILE}"
+      raise e
+    end
+
+    def self.all(file = LOCAL_INSTALL_FILE)
+      instructions = read_yaml_file(file)
+
+      instructions.each do |item|
+        item[:packages].each do |pkg|
+          Rake.sh("#{item.command} #{pkg}")
+        end
+      end
+    end
+
     # Run the #all_install method, simply a wrapper to catch errors
     #   and check if the user is running linux
     # @see all_install
     def self.full
-      unless OS.linux?
-        puts 'You are not running on linux. No packages installed.'
-        return
-      end
-
       all_install
     end
 
