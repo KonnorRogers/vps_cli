@@ -48,7 +48,7 @@ module VpsCli
       install_gems
       # node_js
       add_language_servers
-      powerlevel10k
+      # powerlevel10k
       eslint
     end
 
@@ -204,9 +204,9 @@ module VpsCli
       Rake.sh("#{npm_install} dockerfile-language-server-nodejs")
     end
 
-    def self.powerlevel10k
-      Rake.sh('git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k')
-    end
+    # def self.powerlevel10k
+    #   Rake.sh('git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k')
+    # end
 
     def self.eslint
       Rake.sh('npm install -g eslint')
