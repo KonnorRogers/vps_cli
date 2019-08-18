@@ -12,7 +12,8 @@ module VpsCli
                neovim asciinema docker mosh yarn
                silversearcher-ag virtualbox].freeze
 
-    LIBS = %w[libssl1.0-dev libcurl4-openssl-dev libxml2-dev].freeze
+    LIBS = %w[libssl1.0-dev libcurl4-openssl-dev libxml2-dev
+              re2c libssl-dev libbz2-dev libjpeg-turbo8-dev].freeze
 
     GEMS = %w[colorls neovim rake pry
               rubocop gem-ctags rails yard
