@@ -213,6 +213,8 @@ module VpsCli
     end
 
     def self.nvm
+      nvm_path = ENV['NVM_DIR'] || File.join(Dir.home, '.nvm')
+      Rake.mkdir_p(nvm_path)
       Rake.sh("curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash")
       # Set the version
       Rake.sh("nvm install 11.15.0 && nvm use 11.15.0")
