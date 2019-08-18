@@ -230,5 +230,5 @@ module VpsCli
     # Rake.sh('phpenv install --skip-existing 7.3.8')
     # Rake.sh('phpenv global 7.3.8')
     # end
-    # end
+  end
 end
