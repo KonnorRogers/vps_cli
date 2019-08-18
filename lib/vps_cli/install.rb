@@ -65,11 +65,12 @@ module VpsCli
       pkgs = Packages::UBUNTU.flatten.join(' ').to_s
       Rake.sh("sudo apt-get install -y #{pkgs}")
 
+      begin
       rescue StandardError => e
         VpsCli.errors << e
       end
 
-      puts 'Successfully completed apt-get install on all packages.'
+      puts 'Completed apt-get install on all packages.'
     end
 
     # installs various other tools and fixes an issue with npm / nodejs
@@ -229,5 +230,5 @@ module VpsCli
     # Rake.sh('phpenv install --skip-existing 7.3.8')
     # Rake.sh('phpenv global 7.3.8')
     # end
-  end
+    # end
 end
