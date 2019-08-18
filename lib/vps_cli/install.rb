@@ -223,6 +223,7 @@ module VpsCli
     def self.phpenv
       Rake.sh("curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer \
     | bash")
+      Rake.sh("phpenv install 7.3.8")
     end
   end
 end
