@@ -37,8 +37,8 @@ module VpsCli
     # @see #add_language_servers
     # @see #node_js
     def self.install_non_apt_packages
-      nvm
-      phpenv
+      # nvm
+      # phpenv
       other_tools
       neovim_support
       omz_full_install
@@ -46,7 +46,7 @@ module VpsCli
       install_tmux_plugin_manager_and_plugins
       plug_install_vim_neovim
       install_gems
-      node_js
+      # node_js
       add_language_servers
       powerlevel10k
       eslint
@@ -109,12 +109,12 @@ module VpsCli
     end
 
     # Lots of issues when using npm via apt-get, this seems to fix dependency issues
-    def self.node_js
-      Rake.sh('curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -')
-      Rake.sh('sudo apt-get install -y nodejs')
+    # def self.node_js
+    #   Rake.sh('curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -')
+    #   Rake.sh('sudo apt-get install -y nodejs')
 
-      Rake.sh('sudo npm install -g npm')
-    end
+    #   Rake.sh('sudo npm install -g npm')
+    # end
 
     # adds neovim support via pip3
     # Also adds neovim via npm for js support
@@ -212,21 +212,21 @@ module VpsCli
       Rake.sh('npm install -g eslint')
     end
 
-    def self.nvm
-      nvm_path = ENV['NVM_DIR'] || File.join(Dir.home, '.nvm')
-      Rake.mkdir_p(nvm_path)
-      Rake.sh('curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash')
-      # Set the version
-      # Rake.sh('nvm install 11.15.0')
-      # Rake.sh('nvm use 11.15.0')
-    end
+    # def self.nvm
+    #   nvm_path = ENV['NVM_DIR'] || File.join(Dir.home, '.nvm')
+    #   Rake.mkdir_p(nvm_path)
+    #   Rake.sh('curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash')
+    #   # Set the version
+    #   # Rake.sh('nvm install 11.15.0')
+    #   # Rake.sh('nvm use 11.15.0')
+    # end
 
     # https://github.com/phpenv/phpenv-installer
-    def self.phpenv
-      Rake.sh("curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer \
-    | bash")
-      # Rake.sh('phpenv install --skip-existing 7.3.8')
-      # Rake.sh('phpenv global 7.3.8')
-    end
+    # def self.phpenv
+    # Rake.sh("curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer \
+    # | bash")
+    # Rake.sh('phpenv install --skip-existing 7.3.8')
+    # Rake.sh('phpenv global 7.3.8')
+    # end
   end
 end
