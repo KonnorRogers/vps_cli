@@ -38,6 +38,7 @@ module VpsCli
     # @see #node_js
     def self.install_non_apt_packages
       nvm
+      phpenv
       other_tools
       neovim_support
       omz_full_install
@@ -215,6 +216,13 @@ module VpsCli
       Rake.sh("curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash")
       # Set the version
       Rake.sh("nvm install 11.15.0 && nvm use 11.15.0")
+    end
+
+
+    # https://github.com/phpenv/phpenv-installer
+    def self.phpenv
+      Rake.sh("curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer \
+    | bash")
     end
   end
 end
