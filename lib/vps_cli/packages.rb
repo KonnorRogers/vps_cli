@@ -14,7 +14,8 @@ module VpsCli
 
     LIBS = %w[libssl1.0-dev libcurl4-openssl-dev libxml2-dev
               re2c libssl-dev libbz2-dev libjpeg-turbo8-dev libpng-dev
-              libzip-dev libtidy-dev libxslt-dev autoconf].freeze
+              libzip-dev libtidy-dev libxslt-dev automake libtool autoconf
+              flex bison].freeze
 
     GEMS = %w[colorls neovim rake pry
               rubocop gem-ctags rails yard
