@@ -4,7 +4,7 @@ module VpsCli
   class Packages
     LANGUAGES = %w[python3 python3-pip python-dev
                    python3-dev python-pip python3-neovim
-                   nodejs golang ruby ruby-dev].freeze
+                   nodejs golang ruby ruby-dev php].freeze
 
     TOOLS = %w[curl tmux git vim zsh sqlite3 ctags rdoc libsqlite3-dev
                openssh-client openssh-server dconf-cli gnome-terminal
