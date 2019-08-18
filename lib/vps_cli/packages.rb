@@ -12,7 +12,7 @@ module VpsCli
                neovim asciinema docker mosh yarn
                silversearcher-ag virtualbox].freeze
 
-    LIBS = %w[libssl1.0-dev libxml2-dev
+    LIBS = %w[libssl-dev libcurl4-openssl-dev libxml2-dev
               re2c libbz2-dev libjpeg-turbo8-dev libpng-dev
               libzip-dev libtidy-dev libxslt-dev automake libtool autoconf
               flex bison libkrb5-dev libonig-dev].freeze
