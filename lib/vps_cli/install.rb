@@ -217,7 +217,8 @@ module VpsCli
       Rake.mkdir_p(nvm_path)
       Rake.sh('curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash')
       # Set the version
-      Rake.sh('nvm install 11.15.0 && nvm use 11.15.0')
+      Rake.sh('nvm install 11.15.0')
+      Rake.sh('nvm use 11.15.0')
     end
 
     # https://github.com/phpenv/phpenv-installer
