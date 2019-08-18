@@ -66,7 +66,7 @@ module VpsCli
       end
     end
 
-    def add_error(error: error, message: message)
+    def add_error(error:)
       VpsCli.errors << error
     end
   end
