@@ -57,8 +57,8 @@ module VpsCli
     # @see #add_language_servers
     # @see #node_js
     def self.install_non_apt_packages
-      nvm
-      phpenv
+      # nvm
+      # phpenv
       other_tools
       neovim_support
       omz_full_install
@@ -66,9 +66,9 @@ module VpsCli
       install_tmux_plugin_manager_and_plugins
       plug_install_vim_neovim
       install_gems
-      node_js
+      # node_js
       add_language_servers
-      powerlevel10k
+      # powerlevel10k
       eslint
     end
 
@@ -82,13 +82,15 @@ module VpsCli
     # Runs through items found in Packages::UBUNTU
     # @see Packages::UBUNTU
     def self.packages
-      Packages::UBUNTU.each do |item|
-        Rake.sh("sudo apt-get install -y #{item}")
-      rescue StandardError
-        VpsCli.errors << StandardError.new("Unable to install #{item}")
+      pkgs = Packages::UBUNTU.flatten.join(' ').to_s
+      Rake.sh("sudo apt-get install -y #{pkgs}")
+
+      begin
+      rescue StandardError => e
+        VpsCli.errors << e
       end
 
-      puts 'Successfully completed apt-get install on all packages.'
+      puts 'Completed apt-get install on all packages.'
     end
 
     # installs various other tools and fixes an issue with npm / nodejs
@@ -129,12 +131,12 @@ module VpsCli
     end
 
     # Lots of issues when using npm via apt-get, this seems to fix dependency issues
-    def self.node_js
-      Rake.sh('curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -')
-      Rake.sh('sudo apt-get install -y nodejs')
+    # def self.node_js
+    #   Rake.sh('curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -')
+    #   Rake.sh('sudo apt-get install -y nodejs')
 
-      Rake.sh('sudo npm install -g npm')
-    end
+    #   Rake.sh('sudo npm install -g npm')
+    # end
 
     # adds neovim support via pip3
     # Also adds neovim via npm for js support
@@ -224,28 +226,29 @@ module VpsCli
       Rake.sh("#{npm_install} dockerfile-language-server-nodejs")
     end
 
-    def self.powerlevel10k
-      Rake.sh('git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k')
-    end
+    # def self.powerlevel10k
+    #   Rake.sh('git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k')
+    # end
 
     def self.eslint
       Rake.sh('npm install -g eslint')
     end
 
-    def self.nvm
-      nvm_path = ENV['NVM_DIR'] || File.join(Dir.home, '.nvm')
-      Rake.mkdir_p(nvm_path)
-      Rake.sh('curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash')
-      # Set the version
-      Rake.sh('nvm install 11.15.0 && nvm use 11.15.0')
-    end
+    # def self.nvm
+    #   nvm_path = ENV['NVM_DIR'] || File.join(Dir.home, '.nvm')
+    #   Rake.mkdir_p(nvm_path)
+    #   Rake.sh('curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash')
+    #   # Set the version
+    #   # Rake.sh('nvm install 11.15.0')
+    #   # Rake.sh('nvm use 11.15.0')
+    # end
 
     # https://github.com/phpenv/phpenv-installer
-    def self.phpenv
-      Rake.sh("curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer \
-    | bash")
-      Rake.sh('phpenv install --skip-existing 7.3.8')
-      Rake.sh('phpenv global 7.3.8')
-    end
+    # def self.phpenv
+    # Rake.sh("curl -L https://raw.githubusercontent.com/phpenv/phpenv-installer/master/bin/phpenv-installer \
+    # | bash")
+    # Rake.sh('phpenv install --skip-existing 7.3.8')
+    # Rake.sh('phpenv global 7.3.8')
+    # end
   end
 end

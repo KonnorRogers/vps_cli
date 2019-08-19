@@ -104,8 +104,7 @@ module VpsCli
           Rake.sh('git add -A')
           Rake.sh("git commit -m \"#{message}\"")
           Rake.sh('git push')
-        rescue
-          puts "Something went wrong. Manually push by going to #{options[:config]}"
+        rescue => e
         end
       end
     end
