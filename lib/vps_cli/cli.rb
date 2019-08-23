@@ -97,15 +97,12 @@ module VpsCli
       message ||= 'auto push files'
 
       swap_dir do
-        begin
           Rake.sh('git add -A')
           Rake.sh("git commit -m \"#{message}\"")
           Rake.sh('git push')
-        rescue
-
-
+        rescue RuntimeError => e
+          KubsCLI.add_error(e: e, msg: "Something went wrong pushing your repo")
         end
-      end
     end
 
     desc 'git_status', 'provides the status of your config_files'
